@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import { motion } from "framer-motion";
 import Skills from "../components/Skills";
+import Projects from "../components/Projects";
 
 export default function Home() {
   const [mousePosition, setMousePosition] = useState({
@@ -47,17 +48,17 @@ export default function Home() {
         animate={"default"}
         transition={{ duration: 0.07 }}
       />
-      <main className="overflow-x-hidden">
+      <main className="">
         {/* HEADER */}
         <Header />
-        {/* HERO */}
 
+        {/* HERO */}
         <section id="hero" className="snap-center">
           <Hero />
         </section>
 
         {/* ABOUT */}
-        <section id="about">
+        <section id="about" className="snap-center">
           <About />
         </section>
         {/* SKILLS */}
@@ -65,6 +66,9 @@ export default function Home() {
           <Skills />
         </section>
         {/* PROJECTS */}
+        <section id="projects" className="snap-start">
+          <Projects />
+        </section>
         {/* CONTACT */}
       </main>
     </div>

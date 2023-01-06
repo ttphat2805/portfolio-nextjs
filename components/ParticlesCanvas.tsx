@@ -54,7 +54,7 @@ const ParticlesCanvas = () => {
             random: true,
             anim: {
               enable: true,
-              speed: -10,
+              speed: 2,
             },
           },
           line_linked: {
@@ -88,7 +88,7 @@ const ParticlesCanvas = () => {
             value: 100,
           },
 
-          opacity: { value: { min: 0.3, max: 0.7 } },
+          opacity: { value: { min: 0.5, max: 0.8 } },
 
           shape: {
             type: "image",
@@ -102,7 +102,7 @@ const ParticlesCanvas = () => {
             anim: {
               enable: true,
               speed: 10,
-              size_min: 15,
+              size_min: 20,
               sync: false,
             },
           },

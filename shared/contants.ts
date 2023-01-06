@@ -41,4 +41,63 @@ export const imageCanvas = [
   {
     src: "/images/vercel.png",
   },
+  {
+    src: "/images/github.png",
+  },
+];
+
+export const listSkills = [
+  {
+    text: "Javascript",
+    src: "/images/javascript.png",
+  },
+  {
+    text: "Typescript",
+    src: "/images/typescript.png",
+  },
+  {
+    text: "React",
+    src: "/images/React-icon.png",
+  },
+  {
+    text: "Angular",
+    src: "/images/angular.png",
+  },
+  {
+    text: "CSS3",
+    src: "/images/css3.png",
+  },
+  {
+    text: "HTML5",
+    src: "/images/html5.png",
+  },
+  {
+    text: "Docker",
+    src: "/images/docker.png",
+  },
+  {
+    text: "Firebase",
+    src: "/images/firebase.png",
+  },
+
+  {
+    text: "Mongodb",
+    src: "/images/mongodb.png",
+  },
+  { text: "NextJS", src: "/images/nextjs.png" },
+  { text: "NodeJS", src: "/images/nodejs.png" },
+  { text: "SCSS", src: "/images/scss.png" },
+  {
+    text: "Tailwind",
+    src: "/images/tailwindcss.png",
+  },
+
+  {
+    text: "Vercel",
+    src: "/images/vercel.png",
+  },
+  {
+    text: "Github",
+    src: "/images/github.png",
+  },
 ];
