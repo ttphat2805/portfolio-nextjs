@@ -50,54 +50,66 @@ export const listSkills = [
   {
     text: "Javascript",
     src: "/images/javascript.png",
+    direction: true,
   },
   {
     text: "Typescript",
     src: "/images/typescript.png",
+    direction: true,
   },
   {
     text: "React",
     src: "/images/React-icon.png",
+    direction: true,
   },
   {
     text: "Angular",
     src: "/images/angular.png",
+    direction: true,
   },
   {
     text: "CSS3",
     src: "/images/css3.png",
+    direction: true,
   },
   {
     text: "HTML5",
     src: "/images/html5.png",
+    direction: true,
   },
   {
     text: "Docker",
     src: "/images/docker.png",
+    direction: true,
   },
   {
     text: "Firebase",
     src: "/images/firebase.png",
+    direction: true,
   },
 
   {
     text: "Mongodb",
     src: "/images/mongodb.png",
+    direction: true,
   },
-  { text: "NextJS", src: "/images/nextjs.png" },
-  { text: "NodeJS", src: "/images/nodejs.png" },
-  { text: "SCSS", src: "/images/scss.png" },
+  { text: "NextJS", src: "/images/nextjs.png", direction: false },
+  { text: "NodeJS", src: "/images/nodejs.png", direction: false },
+  { text: "SCSS", src: "/images/scss.png", direction: false },
   {
     text: "Tailwind",
     src: "/images/tailwindcss.png",
+    direction: false,
   },
 
   {
     text: "Vercel",
     src: "/images/vercel.png",
+    direction: false,
   },
   {
     text: "Github",
     src: "/images/github.png",
+    direction: false,
   },
 ];

@@ -6,8 +6,8 @@ type Props = {};
 
 const Skills = (props: Props) => {
   return (
-    <motion.div className="flex flex-col relative h-screen text-center md:text-left max-w-7xl px-10 justify-evenly mx-auto">
-      <h3 className="uppercase tracking-[20px] text-gray-500 text-6xl text-center">
+    <motion.div className="flex flex-col relative h-screen text-center md:text-left max-w-7xl px-10 justify-evenly mx-auto mt-24">
+      <h3 className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center">
         Skills
       </h3>
       <svg
@@ -30,8 +30,8 @@ const Skills = (props: Props) => {
               values="0%;10%;0%"
               repeatCount="indefinite"
             ></animate>
-            <stop offset="0%" stop-color="#f7ac0a93"></stop>
-            <stop offset="100%" stop-color="#00aeef00"></stop>
+            <stop offset="0%" stopColor="#f7ac0a93"></stop>
+            <stop offset="100%" stopColor="#00aeef00"></stop>
           </radialGradient>
         </defs>
         <rect x="0" y="0" width="100%" height="100%" fill="url(#Gradient1)">
@@ -58,10 +58,10 @@ const Skills = (props: Props) => {
         </rect>
       </svg>
       {/* <div className="eclipse-1 absolute w-[500px] h-[500px] rounded-full"></div> */}
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-4 md:gap-8 mx-auto">
+      <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-8 mx-auto md:mt-0 mt-10">
         {listSkills.map((item, index) => (
           <Fragment key={index}>
-            <Skill skill={item} />
+            <Skill skill={item} directionLeft={item.direction} />
           </Fragment>
         ))}
       </div>

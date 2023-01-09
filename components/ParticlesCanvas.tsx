@@ -1,8 +1,7 @@
 import { useCallback } from "react";
-import type { Container, Engine } from "tsparticles-engine";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
-import { relative } from "path";
+import type { Container, Engine } from "tsparticles-engine";
 import { imageCanvas } from "../shared/contants";
 const ParticlesCanvas = () => {
   const particlesInit = useCallback(async (engine: Engine) => {
@@ -13,9 +12,7 @@ const ParticlesCanvas = () => {
   }, []);
 
   const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {
-      await console.log(container);
-    },
+    async (container: Container | undefined) => {},
     []
   );
   return (
@@ -83,7 +80,7 @@ const ParticlesCanvas = () => {
           number: {
             density: {
               enable: true,
-              area: 11000,
+              area: 10000,
             },
             value: 100,
           },

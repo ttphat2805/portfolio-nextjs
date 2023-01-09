@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 type Props = {
   directionLeft?: boolean;
   skill: {
@@ -15,7 +13,7 @@ const Skill = ({ directionLeft, skill }: Props) => {
     <div className="group cursor-pointer">
       <motion.div
         initial={{
-          x: directionLeft ? -200 : 200,
+          x: directionLeft ? -100 : 100,
           opacity: 0,
         }}
         transition={{ duration: 1 }}

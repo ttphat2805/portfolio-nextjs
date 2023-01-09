@@ -10,10 +10,10 @@ const About = (props: Props) => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
-      <h3 className="uppercase tracking-[20px] text-gray-500 text-6xl text-center">
+      <h3 className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center">
         About
       </h3>
-      <div className="flex items-center">
+      <div className="flex md:flex-row flex-col items-center">
         <motion.img
           src="https://www.mnp.ca/-/media/foundation/integrations/personnel/2020/12/16/13/57/personnel-image-4483.jpg?h=800&w=600&hash=9D5E5FCBEE00EB562DCD8AC8FDA8433D"
           alt=""
@@ -29,7 +29,7 @@ const About = (props: Props) => {
           className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-fill"
         />
 
-        <div className="space-y-10 px-0 md:px-10">
+        <div className="space-y-10 px-0 md:px-10 text-center md:mt-0 mt-5">
           <h4 className="text-4xl font-semibold">
             Here is a{" "}
             <span className="underline decoration-primary">little</span> bg
