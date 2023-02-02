@@ -26,6 +26,9 @@ const Header = (props: Props) => {
         transition={{
           duration: 1.5,
         }}
+        data-scroll
+        data-scroll-direction="horizontal"
+        data-scroll-speed="-1"
       >
         {/* Social Icons */}
         <Link href={""}>

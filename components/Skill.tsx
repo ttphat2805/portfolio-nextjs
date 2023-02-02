@@ -16,7 +16,7 @@ const Skill = ({ directionLeft, skill }: Props) => {
           x: directionLeft ? -100 : 100,
           opacity: 0,
         }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.5 }}
         whileInView={{ opacity: 1, x: 0 }}
         className="group bg-[rgba(0,0,0,.2)] w-full h-full p-4
          flex items-center text-center rounded-2xl border-[1px] border-white/40 

@@ -10,7 +10,12 @@ const About = (props: Props) => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1.5 }}
     >
-      <h3 className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center">
+      <h3
+        className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center"
+        data-scroll
+        data-scroll-direction="horizontal"
+        data-scroll-speed="1"
+      >
         About
       </h3>
       <div className="flex md:flex-row flex-col items-center">
@@ -26,15 +31,28 @@ const About = (props: Props) => {
             duration: 1.2,
           }}
           viewport={{ once: true }}
+          data-scroll
+          data-scroll-direction="vertical"
+          data-scroll-speed="2"
           className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-fill"
         />
 
-        <div className="space-y-10 px-0 md:px-10 text-center md:mt-0 mt-5">
-          <h4 className="text-4xl font-semibold">
+        <div className="space-y-5 px-0 md:px-10 text-center md:mt-0 mt-5">
+          <h4
+            className="text-4xl font-semibold"
+            data-scroll
+            data-scroll-direction="horizontal"
+            data-scroll-speed="1"
+          >
             Here is a{" "}
             <span className="underline decoration-primary">little</span> bg
           </h4>
-          <p className="text-base">
+          <p
+            className="text-base"
+            data-scroll
+            data-scroll-direction="horizontal"
+            data-scroll-speed="-1"
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, nemo
             assumenda provident excepturi ex eius tenetur officia veritatis modi
             nostrum eaque esse reprehenderit natus repellat ut quia iusto vel

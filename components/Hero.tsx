@@ -25,25 +25,10 @@ const Hero = (props: Props) => {
         <h2 className="text-sm uppercase text-gray-500 pb-2 tracking-[15px]">
           Software Engieer
         </h2>
-        <h1 className="text-5xl lg:text-6xl font-semibold scroll-px-10">
+        <h1 className="text-5xl lg:text-6xl font-semibold scroll-px-10 my-10">
           <span className="mr-3">{text}</span>
           <Cursor cursorColor="#F7AB0A" />
         </h1>
-
-        <div className="pt-5">
-          <Link href={"#about"}>
-            <button className="heroBtn">About</button>
-          </Link>
-          <Link href={"#experience"}>
-            <button className="heroBtn">Experience</button>
-          </Link>
-          <Link href={"#skills"}>
-            <button className="heroBtn">Skills</button>
-          </Link>
-          <Link href={"#projects"}>
-            <button className="heroBtn">Projects</button>
-          </Link>
-        </div>
       </div>
     </div>
   );
