@@ -7,6 +7,11 @@
   .heroBtn {
     @apply px-6 py-2 border border-[#242424] rounded-full uppercase text-sm tracking-widest text-gray-500 transition-all hover:border-primary hover:text-primary;
   }
+  
+  .tech-icon {
+    @apply w-[50px] h-[50px] border border-white/20 rounded-full p-2 shadow-md hover:border-white hover:bg-white transition duration-300
+  }
+
 }
 
 body {

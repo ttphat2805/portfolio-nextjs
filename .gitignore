@@ -12,6 +12,8 @@
 /.next/
 /out/
 
+sanity/node_modules
+
 # production
 /build
 
@@ -27,7 +29,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
-
+.env.example
 # vercel
 .vercel
 
