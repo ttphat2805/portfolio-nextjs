@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#F7AB0A",
+        bgmain: "#172029",
       },
       boxShadow: {
         skillsd: "0 15px 35px hsla(0,0%,65%,.171)",

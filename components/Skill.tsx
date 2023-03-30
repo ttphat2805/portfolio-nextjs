@@ -14,7 +14,7 @@ const Skill = ({ directionLeft, skill }: Props) => {
       className="group cursor-pointer"
       data-scroll
       data-scroll-direction="vertical"
-      data-scroll-speed="2"
+      data-scroll-speed="1"
     >
       <motion.div
         initial={{

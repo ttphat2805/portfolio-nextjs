@@ -8,7 +8,7 @@ const Skills = (props: Props) => {
   return (
     <motion.div className="flex flex-col relative h-screen text-center md:text-left max-w-7xl px-10 justify-evenly mx-auto mt-24">
       <h3
-        className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center"
+        className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center md:mb-20"
         data-scroll
         data-scroll-direction="horizontal"
         data-scroll-speed="-2"

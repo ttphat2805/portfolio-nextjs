@@ -7,7 +7,6 @@ export const config = {
   apiVersion: "2021-03-25",
   useCdn: process.env.NODE_ENV === "production",
 };
-console.log("config: ", config);
 
 export const sanityClient = createClient(config);
 

@@ -5,6 +5,12 @@ import { Cursor, useTypewriter } from "react-simple-typewriter";
 import BackgroundCircles from "./BackgroundCircles";
 import ParticlesCanvas from "./ParticlesCanvas";
 import { motion } from "framer-motion";
+import {
+  BsArrowDownShort,
+  BsArrowRight,
+  BsArrowRightCircle,
+  BsDownload,
+} from "react-icons/bs";
 
 type Props = {};
 
@@ -46,6 +52,12 @@ const Hero = (props: Props) => {
           <span className="mr-3">{text}</span>
           <Cursor cursorColor="#F7AB0A" />
         </h1>
+        <a href="TranTanPhat_Resume.pdf" download>
+          <button className="group bg-transparent uppercase px-3 py-2 rounded-md shadow-lg border border-white hover:bg-white hover:text-bgmain hover:border-bgmain transition-all duration-300">
+            Dowload Resume{" "}
+            <BsArrowRight className="inline-block text-2xl group-hover:ml-2 transition-all duration-500" />
+          </button>
+        </a>
       </div>
     </div>
   );

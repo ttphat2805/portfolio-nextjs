@@ -7,9 +7,11 @@
 
 @layer components {
   .tech-icon {
-    @apply w-[50px] h-[50px] border border-white/20 rounded-full p-2 shadow-md hover:border-white hover:bg-white transition duration-300
+    @apply w-[50px] h-[50px] border border-white/20 rounded-full p-2 shadow-md hover:border-white hover:bg-white transition duration-300;
   }
-
+  .form-control {
+    @apply p-2 px-3 outline-none rounded-lg my-2 w-full bg-transparent text-white border border-white focus:border-primary transition-all duration-200;
+  }
 }
 
 body {
@@ -33,3 +35,29 @@ body {
   border-radius: 10px;
 }
 
+.shape {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.shape svg {
+  position: relative;
+  display: block;
+  width: calc(205% + 1.3px);
+  height: 300px;
+}
+
+.shape .shape-fill {
+  fill: #172029;
+}
+
+.bg-gradient {
+  background: #3ca55c;
+  background: -webkit-linear-gradient(to right, #b5ac4992, #3ca55c);
+  background: linear-gradient(to right, #b5ac49a1, #3ca55c80);
+}
