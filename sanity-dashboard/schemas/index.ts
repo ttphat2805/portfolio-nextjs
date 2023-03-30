@@ -1,5 +1,5 @@
-import post from './post'
+import PageInfo from './PageInfo'
 import Projects from './Projects'
 import Skill from './Skill'
 
-export const schemaTypes = [post, Skill, Projects]
+export const schemaTypes = [PageInfo, Skill, Projects]

@@ -11,7 +11,7 @@ const Skills = (props: Props) => {
         className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center"
         data-scroll
         data-scroll-direction="horizontal"
-        data-scroll-speed="-1"
+        data-scroll-speed="-2"
       >
         Skills
       </h3>

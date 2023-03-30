@@ -12,14 +12,27 @@ const Projects = (props: Props) => {
       className="flex relative flex-col text-center md:text-left px-7 md:px-10 justify-evenly mx-auto mt-24"
     >
       <div className="h-[200px]"></div>
-      <h3 className="uppercase tracking-[15px] text-gray-500 text-3xl md:text-6xl text-center mb-24">
+      <h3
+        className="uppercase tracking-[15px] text-gray-500 text-3xl md:text-6xl text-center mb-24"
+        data-scroll
+        data-scroll-direction="vertical"
+        data-scroll-speed="2"
+      >
         Projects
       </h3>
 
       <div className="w-full absolute top-[30%] bg-primary/10 left-0 h-[500px] -skew-y-12 z-0"></div>
 
       <div className="projects flex flex-col gap-32 relative mx-auto z-1">
-        <div className="project-item max-w-6xl w-full">
+        <motion.div
+          className="project-item max-w-6xl w-full"
+          initial={{
+            x: 200,
+            opacity: 0,
+          }}
+          transition={{ duration: 1 }}
+          whileInView={{ opacity: 1, x: 0 }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 md:p-10 bg-slate-500 rounded-lg shadow-md">
             <div className="col-span-1 p-5 rounded-md">
               <img
@@ -85,7 +98,7 @@ const Projects = (props: Props) => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
         <div className="project-item max-w-6xl w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 md:p-10 bg-slate-500 rounded-lg shadow-md">
             <div className="col-span-1 p-5 rounded-md">

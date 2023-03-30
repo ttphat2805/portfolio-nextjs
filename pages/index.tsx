@@ -46,35 +46,33 @@ export default function Home() {
       containerRef={containerRef}
     >
       <div className="bg-[rgb(36,36,36)] text-white z-0 overflow-x-hidden scroll-smooth">
-        <motion.div
+        {/* <motion.div
           className="w-[32px] h-[32px] border border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100]"
           variants={variants}
           animate={"default"}
           transition={{ duration: 0.07 }}
-        />
+        /> */}
         <main data-scroll-container ref={containerRef}>
           {/* HEADER */}
           <Header />
-
           {/* HERO */}
-          <section id="hero">
+          <section id="hero" data-scroll>
             <Hero />
           </section>
-
           {/* ABOUT */}
-          <section id="about">
+          <section id="about" data-scroll>
             <About />
           </section>
           {/* SKILLS */}
-          <section id="skills">
+          <section id="skills" data-scroll>
             <Skills />
           </section>
           {/* PROJECTS */}
-          <section id="projects">
+          <section id="projects" data-scroll>
             <Projects />
           </section>
           {/* CONTACT */}
-          <section id="contact">
+          <section id="contact" data-scroll>
             <Contact />
           </section>
         </main>
