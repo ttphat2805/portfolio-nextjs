@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IoMdInformationCircle } from "react-icons/io";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Loader from "./Loader";
 type Props = {};
 
 type FormValues = {
@@ -13,7 +14,13 @@ type FormValues = {
   message: string;
 };
 
+interface checkMarkType {
+  toggleCheckMark: () => void;
+}
+
 const Contact = (props: Props) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const checkMarkRef = useRef<any>();
   const form = useRef<any>("");
   const {
     register,
@@ -22,27 +29,33 @@ const Contact = (props: Props) => {
     formState: { errors },
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    var templateParams = {
-      to_name: "xyz",
-      from_name: "abc",
-      message_html: "Please Find out the attached file",
-    };
-    emailjs
-      .sendForm(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
-        form.current,
-        "YOUR_PUBLIC_KEY"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-    reset();
+    setLoading(true);
+    if (Object.keys(errors).length === 0) {
+      emailjs
+        .sendForm(
+          "service_1xod2jx",
+          "template_nivb6ug",
+          form.current,
+          "ymmyokYjiDNtvxwAS"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        )
+        .catch((err) => console.log(err))
+        .finally(() => {
+          checkMarkRef.current.classList.add("draw");
+          setTimeout(() => {
+            setLoading(false);
+            reset();
+            checkMarkRef.current.classList.remove("draw");
+          }, 1000);
+        });
+    }
   };
 
   return (
@@ -57,7 +70,7 @@ const Contact = (props: Props) => {
         Contact
       </h3>
       <div className="bg-gradient relative z-[1] flex items-center justify-center pb-32 px-5">
-        <div className="bg-[rgba(0,0,0,.377)] border border-white/30 p-6 rounded-lg backdrop-blur-md shadow-lg w-full max-w-lg mt-[270px] text-left">
+        <div className="bg-[rgba(0,0,0,.377)] border border-white/30 p-6 rounded-lg backdrop-blur-lg shadow-lg w-full max-w-lg mt-[270px] text-left">
           <form ref={form} onSubmit={handleSubmit(onSubmit)}>
             <div className="bg-white text-blue-500 rounded-lg px-4 py-2 mb-5 border-l-4 border-primary flex items-center">
               <IoMdInformationCircle className="mr-2 text-xl" />
@@ -68,7 +81,7 @@ const Contact = (props: Props) => {
             <div className="form-group">
               <label className="font-semibold" htmlFor="">
                 Your name
-              </label>{" "}
+              </label>
               <br />
               <input
                 type="text"
@@ -77,6 +90,8 @@ const Contact = (props: Props) => {
                 }`}
                 aria-invalid={errors.name ? "true" : "false"}
                 {...register("name", { required: true })}
+                placeholder="Enter your name"
+                name="name"
               />
               <p className="text-red-500">
                 {errors.name && "Name is required"}
@@ -85,18 +100,20 @@ const Contact = (props: Props) => {
             <div className="form-group">
               <label className="font-semibold" htmlFor="">
                 Your email
-              </label>{" "}
+              </label>
               <br />
               <input
                 type="text"
                 className={`form-control ${
                   errors.email ? "border-red-500" : ""
                 }`}
-                aria-invalid={errors.name ? "true" : "false"}
+                aria-invalid={errors.email ? "true" : "false"}
                 {...register("email", {
                   pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
                   required: true,
                 })}
+                placeholder="Enter your email"
+                name="email"
               />
               <p className="text-red-500">
                 {errors.email && "Email must be in the correct format"}
@@ -105,7 +122,7 @@ const Contact = (props: Props) => {
             <div className="form-group">
               <label className="font-semibold" htmlFor="">
                 Your email subject
-              </label>{" "}
+              </label>
               <br />
               <input
                 type="text"
@@ -114,6 +131,8 @@ const Contact = (props: Props) => {
                 }`}
                 aria-invalid={errors.email_subject ? "true" : "false"}
                 {...register("email_subject", { required: true })}
+                placeholder="Enter your email subject"
+                name="email_subject"
               />
               <p className="text-red-500">
                 {errors.email_subject && "Email subject is required"}
@@ -133,22 +152,28 @@ const Contact = (props: Props) => {
                 {...register("message", { required: true })}
                 cols={20}
                 rows={3}
+                name="message"
+                placeholder="Enter your message"
               ></textarea>
               <p className="text-red-500 -mt-2">
                 {errors.message && "Message is required"}
               </p>
             </div>
+
             <button
-              className="w-full p-2 mt-5 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
+              className="relative w-full p-2 mt-5 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
             outline-none hover:bg-primary hover:border-primary transition-all duration-300"
+              disabled={loading}
             >
-              Send
+              {loading ? <Loader ref={checkMarkRef} /> : "Send"}
+              <div ref={checkMarkRef} className="checkmark"></div>
             </button>
           </form>
         </div>
 
-        <div className="shape">
+        <div className="absolute top-0 left-0 w-full z-[-1] overflow-hidden leading-0">
           <svg
+            className="relative block w-[calc(205% + 1.3px)] h-[300px]"
             data-name="Layer 1"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
