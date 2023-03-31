@@ -23,7 +23,7 @@ const Hero = (props: Props) => {
 
   return (
     <div className="h-screen relative flex flex-col space-y-8 items-center justify-center text-center">
-      {/* <ParticlesCanvas /> */}
+      <ParticlesCanvas />
       <BackgroundCircles />
       <motion.img
         initial={{
@@ -55,7 +55,7 @@ const Hero = (props: Props) => {
         <a href="TranTanPhat_Resume.pdf" download>
           <button className="group bg-transparent uppercase px-3 py-2 rounded-md shadow-lg border border-white hover:bg-white hover:text-bgmain hover:border-bgmain transition-all duration-300">
             Dowload Resume{" "}
-            <BsArrowRight className="inline-block text-2xl group-hover:ml-2 transition-all duration-500" />
+            <BsArrowRight className="inline-block text-2xl group-hover:ml-2" />
           </button>
         </a>
       </div>

@@ -89,7 +89,6 @@ const ParticlesCanvas = () => {
 
           shape: {
             type: "image",
-
             image: imageCanvas,
           },
 

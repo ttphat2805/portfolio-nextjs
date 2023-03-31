@@ -1,8 +1,50 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { IoMdInformationCircle } from "react-icons/io";
+import { useRef } from "react";
 type Props = {};
 
+type FormValues = {
+  name: string;
+  email: string;
+  email_subject: string;
+  message: string;
+};
+
 const Contact = (props: Props) => {
+  const form = useRef<any>("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    var templateParams = {
+      to_name: "xyz",
+      from_name: "abc",
+      message_html: "Please Find out the attached file",
+    };
+    emailjs
+      .sendForm(
+        "YOUR_SERVICE_ID",
+        "YOUR_TEMPLATE_ID",
+        form.current,
+        "YOUR_PUBLIC_KEY"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    reset();
+  };
+
   return (
     <motion.div className="text-center md:text-left">
       <div className="h-[200px]"></div>
@@ -16,32 +58,88 @@ const Contact = (props: Props) => {
       </h3>
       <div className="bg-gradient relative z-[1] flex items-center justify-center pb-32 px-5">
         <div className="bg-[rgba(0,0,0,.377)] border border-white/30 p-6 rounded-lg backdrop-blur-md shadow-lg w-full max-w-lg mt-[270px] text-left">
-          <form action="">
-            <div className="bg-white rounded-lg px-4 py-2 mb-5">
+          <form ref={form} onSubmit={handleSubmit(onSubmit)}>
+            <div className="bg-white text-blue-500 rounded-lg px-4 py-2 mb-5 border-l-4 border-primary flex items-center">
+              <IoMdInformationCircle className="mr-2 text-xl" />
               <h3 className="text-base text-black font-semibold">
                 Please message me about anything if you need to !
               </h3>
             </div>
             <div className="form-group">
-              <label htmlFor="">Your name</label> <br />
-              <input type="text" className="form-control" />
+              <label className="font-semibold" htmlFor="">
+                Your name
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                className={`form-control ${
+                  errors.name ? "border-red-500" : ""
+                }`}
+                aria-invalid={errors.name ? "true" : "false"}
+                {...register("name", { required: true })}
+              />
+              <p className="text-red-500">
+                {errors.name && "Name is required"}
+              </p>
             </div>
             <div className="form-group">
-              <label htmlFor="">Your email</label> <br />
-              <input type="text" className="form-control" />
+              <label className="font-semibold" htmlFor="">
+                Your email
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                className={`form-control ${
+                  errors.email ? "border-red-500" : ""
+                }`}
+                aria-invalid={errors.name ? "true" : "false"}
+                {...register("email", {
+                  pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                  required: true,
+                })}
+              />
+              <p className="text-red-500">
+                {errors.email && "Email must be in the correct format"}
+              </p>
             </div>
             <div className="form-group">
-              <label htmlFor="">Your email subject</label> <br />
-              <input type="text" className="form-control" />
+              <label className="font-semibold" htmlFor="">
+                Your email subject
+              </label>{" "}
+              <br />
+              <input
+                type="text"
+                className={`form-control ${
+                  errors.email_subject ? "border-red-500" : ""
+                }`}
+                aria-invalid={errors.email_subject ? "true" : "false"}
+                {...register("email_subject", { required: true })}
+              />
+              <p className="text-red-500">
+                {errors.email_subject && "Email subject is required"}
+              </p>
             </div>
 
             <div className="form-group">
-              <label htmlFor="">Your message</label>
+              <label className="font-semibold" htmlFor="">
+                Your message
+              </label>
               <br />
-              <textarea className="form-control" cols={20} rows={3}></textarea>
+              <textarea
+                className={`form-control ${
+                  errors.message ? "border-red-500" : ""
+                }`}
+                aria-invalid={errors.message ? "true" : "false"}
+                {...register("message", { required: true })}
+                cols={20}
+                rows={3}
+              ></textarea>
+              <p className="text-red-500 -mt-2">
+                {errors.message && "Message is required"}
+              </p>
             </div>
             <button
-              className="w-full p-2 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
+              className="w-full p-2 mt-5 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
             outline-none hover:bg-primary hover:border-primary transition-all duration-300"
             >
               Send

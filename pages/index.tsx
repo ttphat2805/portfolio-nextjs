@@ -77,9 +77,9 @@ export default function Home() {
             <Contact />
           </section>
           {/* FOOTER */}
-          <section id="footer" data-scroll>
+          {/* <section id="footer" data-scroll>
             <Footer />
-          </section>
+          </section> */}
         </main>
       </div>
     </LocomotiveScrollProvider>

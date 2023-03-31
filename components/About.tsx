@@ -4,9 +4,6 @@ import { useLocomotiveScroll } from "react-locomotive-scroll";
 type Props = {};
 
 const About = (props: Props) => {
-  const { scroll } = useLocomotiveScroll();
-  console.log("scroll: ", scroll);
-  // const scrollDirection = delta.y > 0 ? "up" : "down";
   return (
     <>
       <motion.div
