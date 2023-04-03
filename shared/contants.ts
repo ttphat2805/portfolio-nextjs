@@ -113,3 +113,9 @@ export const listSkills = [
     direction: false,
   },
 ];
+
+export const EMAILJS = {
+  TEMPLATE_ID: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+  SERVICE_ID: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+  PUBLIC_KEY: "ymmyokYjiDNtvxwAS",
+};

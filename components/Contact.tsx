@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { IoMdInformationCircle } from "react-icons/io";
-import { useRef, useState } from "react";
+import { EMAILJS } from "../shared/contants";
 import Loader from "./Loader";
 type Props = {};
 
@@ -14,14 +15,20 @@ type FormValues = {
   message: string;
 };
 
-interface checkMarkType {
-  toggleCheckMark: () => void;
-}
-
 const Contact = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [checkMark, setCheckMark] = useState<boolean>(false);
+  const form = useRef<string | HTMLFormElement>("");
   const checkMarkRef = useRef<any>();
-  const form = useRef<any>("");
+
+  useEffect(() => {
+    if (checkMark) {
+      checkMarkRef.current.classList.add("draw");
+    } else {
+      checkMarkRef.current.classList.remove("draw");
+    }
+  }, [checkMark]);
+
   const {
     register,
     handleSubmit,
@@ -30,31 +37,33 @@ const Contact = (props: Props) => {
   } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     setLoading(true);
+
     if (Object.keys(errors).length === 0) {
       emailjs
         .sendForm(
-          "service_1xod2jx",
-          "template_nivb6ug",
+          EMAILJS.SERVICE_ID!,
+          EMAILJS.TEMPLATE_ID!,
           form.current,
-          "ymmyokYjiDNtvxwAS"
+          EMAILJS.PUBLIC_KEY
         )
         .then(
           (result) => {
-            console.log(result.text);
+            if (result.text === "OK") {
+              setTimeout(() => {
+                setCheckMark(true);
+                setLoading(false);
+                setTimeout(() => {
+                  setCheckMark(false);
+                  reset();
+                }, 1000);
+              }, 1000);
+            }
           },
           (error) => {
             console.log(error.text);
           }
         )
-        .catch((err) => console.log(err))
-        .finally(() => {
-          checkMarkRef.current.classList.add("draw");
-          setTimeout(() => {
-            setLoading(false);
-            reset();
-            checkMarkRef.current.classList.remove("draw");
-          }, 1000);
-        });
+        .catch((err) => console.log(err));
     }
   };
 
@@ -161,12 +170,17 @@ const Contact = (props: Props) => {
             </div>
 
             <button
-              className="relative w-full p-2 mt-5 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
-            outline-none hover:bg-primary hover:border-primary transition-all duration-300"
+              className={`relative w-full p-2 mt-5 border rounded-lg text-base bg-primary/80 shadow-md border-white/40 
+            outline-none hover:bg-primary hover:border-primary transition-all duration-300 ${
+              checkMark && "h-[40px]"
+            }`}
               disabled={loading}
             >
-              {loading ? <Loader ref={checkMarkRef} /> : "Send"}
-              <div ref={checkMarkRef} className="checkmark"></div>
+              {loading ? <Loader /> : !checkMark ? "Send" : ""}
+              <div
+                ref={checkMarkRef}
+                className="checkmark relative m-auto invisible"
+              ></div>
             </button>
           </form>
         </div>

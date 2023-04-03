@@ -48,8 +48,8 @@ body {
 }
 
 
-
 .checkmark.draw:after {
+  visibility: visible;
   animation-duration: 1000ms;
   animation-timing-function: ease;
   animation-name: checkmark;
@@ -60,8 +60,8 @@ body {
   height: 1.75em;
   width: .75em;
   transform-origin: left top;
-  border-right: 3px solid #5cb85c;
-  border-top: 3px solid #5cb85c;
+  border-right: 3px solid #0aee0a;
+  border-top: 3px solid #01ff01;
   content: "";
   left: 48%;
   top: 50%;
