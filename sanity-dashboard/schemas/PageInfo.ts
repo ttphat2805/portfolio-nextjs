@@ -24,17 +24,43 @@ export default defineType({
       type: 'string',
     },
     {
-      name: 'profilePic',
-      title: 'Profile Avatar',
+      name: 'backgroundAvatar',
+      title: 'Background Avatar',
       type: 'image',
       options: {
         hotspot: true,
       },
     },
     {
-      name: 'introduce',
-      title: 'Introduce',
+      name: 'titleAbout',
+      title: 'Title About',
+      type: 'string',
+    },
+    {
+      name: 'summary',
+      title: 'Summary',
       type: 'text',
+    },
+    {
+      name: 'phoneNumber',
+      title: 'Phone Number',
+      type: 'string',
+    },
+    {
+      name: 'email',
+      title: 'Email',
+      type: 'string',
+    },
+    {
+      name: 'address',
+      title: 'Address',
+      type: 'string',
+    },
+    {
+      name: 'socials',
+      title: 'Socials',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'socials'}}],
     },
   ],
 })

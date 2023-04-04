@@ -1,11 +1,10 @@
-import Link from "next/link";
-import React from "react";
-import { MdFacebook } from "react-icons/md";
-import { FiInstagram } from "react-icons/fi";
-import { FaLinkedin } from "react-icons/fa";
-import { HiMail } from "react-icons/hi";
-import { AiOutlineGithub } from "react-icons/ai";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { AiOutlineGithub } from "react-icons/ai";
+import { FaLinkedin } from "react-icons/fa";
+import { FiInstagram } from "react-icons/fi";
+import { HiMail } from "react-icons/hi";
+import { MdFacebook } from "react-icons/md";
 type Props = {};
 
 const Header = (props: Props) => {

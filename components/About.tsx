@@ -2,8 +2,17 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useLocomotiveScroll } from "react-locomotive-scroll";
 type Props = {};
-
 const About = (props: Props) => {
+  // ScrollTrigger.create({
+  //   trigger: ".image-mask",
+  //   scroller: ".container",
+  //   start: "top+=30% 50%",
+  //   end: "bottom-=40% 50%",
+  //   animation: gsap.to(".image", { backgroundSize: "120%" }),
+  //   scrub: 2,
+  //   // markers: true
+  // });
+
   return (
     <>
       <motion.div
@@ -36,7 +45,7 @@ const About = (props: Props) => {
             data-scroll
             data-scroll-direction="vertical"
             data-scroll-speed="5"
-            className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-fill"
+            className="image flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-fill"
           />
 
           <div className="space-y-5 px-0 md:px-10 text-center md:mt-0 mt-5">

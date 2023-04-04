@@ -18,7 +18,7 @@ type FormValues = {
 const Contact = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [checkMark, setCheckMark] = useState<boolean>(false);
-  const form = useRef<string | HTMLFormElement>("");
+  const form = useRef<any | HTMLFormElement>("");
   const checkMarkRef = useRef<any>();
 
   useEffect(() => {

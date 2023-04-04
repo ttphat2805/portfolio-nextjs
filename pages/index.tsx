@@ -39,20 +39,26 @@ export default function Home() {
   };
 
   return (
-    <LocomotiveScrollProvider
-      options={{
-        smooth: true,
-      }}
-      watch={[]}
-      containerRef={containerRef}
-    >
-      <div className="bg-bgmain text-white z-0 overflow-x-hidden scroll-smooth">
-        <motion.div
-          className="w-[32px] h-[32px] border border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100]"
-          variants={variants}
-          animate={"default"}
-          transition={{ duration: 0.07 }}
-        />
+    <div className="bg-bgmain text-white z-0 overflow-x-hidden scroll-smooth">
+      <motion.div
+        className="w-[32px] h-[32px] border border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100]"
+        variants={variants}
+        animate={"default"}
+        transition={{ duration: 0.07 }}
+      />
+      <LocomotiveScrollProvider
+        options={{
+          smooth: true,
+          smartPhone: {
+            smooth: true,
+          },
+          tablet: {
+            smooth: true,
+          },
+        }}
+        watch={[]}
+        containerRef={containerRef}
+      >
         <main data-scroll-container ref={containerRef}>
           {/* HEADER */}
           <Header />
@@ -73,15 +79,15 @@ export default function Home() {
             <Projects />
           </section>
           {/* CONTACT */}
-          <section id="contact" data-scroll>
+          <section id="contact">
             <Contact />
           </section>
           {/* FOOTER */}
-          {/* <section id="footer" data-scroll>
+          <section id="footer" data-scroll>
             <Footer />
-          </section> */}
+          </section>
         </main>
-      </div>
-    </LocomotiveScrollProvider>
+      </LocomotiveScrollProvider>
+    </div>
   );
 }
