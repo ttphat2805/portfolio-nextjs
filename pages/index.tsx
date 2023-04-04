@@ -8,7 +8,22 @@ import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 import Footer from "../components/Footer";
-export default function Home() {
+import { GetStaticProps } from "next";
+import {
+  getPageInfo,
+  getProjects,
+  getSkills,
+  getSocials,
+} from "../services/http";
+
+type Props = {
+  pageInfo: PageInfo;
+  skills: Skills[];
+  projects: Project[];
+  socials: Socials[];
+};
+
+export default function Home({ pageInfo, skills, projects, socials }: Props) {
   const containerRef = useRef(null);
 
   const [mousePosition, setMousePosition] = useState({
@@ -61,14 +76,14 @@ export default function Home() {
       >
         <main data-scroll-container ref={containerRef}>
           {/* HEADER */}
-          <Header />
+          <Header socials={socials} />
           {/* HERO */}
           <section id="hero" data-scroll>
-            <Hero />
+            <Hero pageInfo={pageInfo} />
           </section>
           {/* ABOUT */}
           <section id="about" data-scroll>
-            <About />
+            <About pageInfo={pageInfo} />
           </section>
           {/* SKILLS */}
           <section id="skills" data-scroll>
@@ -91,3 +106,20 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const pageInfo: PageInfo = await getPageInfo();
+  const projects: Project[] = await getProjects();
+  const skills: Skills[] = await getSkills();
+  const socials: Socials[] = await getSocials();
+
+  return {
+    props: {
+      pageInfo,
+      projects,
+      skills,
+      socials,
+    },
+    revalidate: 10,
+  };
+};

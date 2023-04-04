@@ -1,18 +1,10 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { useLocomotiveScroll } from "react-locomotive-scroll";
-type Props = {};
-const About = (props: Props) => {
-  // ScrollTrigger.create({
-  //   trigger: ".image-mask",
-  //   scroller: ".container",
-  //   start: "top+=30% 50%",
-  //   end: "bottom-=40% 50%",
-  //   animation: gsap.to(".image", { backgroundSize: "120%" }),
-  //   scrub: 2,
-  //   // markers: true
-  // });
+import { urlFor } from "../sanity";
+type Props = {
+  pageInfo: PageInfo;
+};
 
+const About = ({ pageInfo }: Props) => {
   return (
     <>
       <motion.div
@@ -31,7 +23,7 @@ const About = (props: Props) => {
         </h3>
         <div className="flex md:flex-row flex-col items-center">
           <motion.img
-            src="https://www.mnp.ca/-/media/foundation/integrations/personnel/2020/12/16/13/57/personnel-image-4483.jpg?h=800&w=600&hash=9D5E5FCBEE00EB562DCD8AC8FDA8433D"
+            src={urlFor(pageInfo.backgroundAvatar).url()}
             alt=""
             initial={{
               x: -200,
@@ -45,7 +37,7 @@ const About = (props: Props) => {
             data-scroll
             data-scroll-direction="vertical"
             data-scroll-speed="5"
-            className="image flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-fill"
+            className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-cover"
           />
 
           <div className="space-y-5 px-0 md:px-10 text-center md:mt-0 mt-5">
@@ -55,8 +47,9 @@ const About = (props: Props) => {
               data-scroll-direction="horizontal"
               data-scroll-speed="2"
             >
-              Here is a{" "}
-              <span className="underline decoration-primary">little</span> bg
+              Briefly{" "}
+              <span className="underline decoration-primary">about</span>{" "}
+              yourself
             </h4>
             <p
               className="text-base"
@@ -64,10 +57,7 @@ const About = (props: Props) => {
               data-scroll-direction="horizontal"
               data-scroll-speed="-1"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, nemo
-              assumenda provident excepturi ex eius tenetur officia veritatis
-              modi nostrum eaque esse reprehenderit natus repellat ut quia iusto
-              vel quae!
+              {pageInfo.summary}
             </p>
           </div>
         </div>

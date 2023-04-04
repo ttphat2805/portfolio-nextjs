@@ -19,3 +19,39 @@ interface Skills extends SanityBody {
   title: string;
   image: Image;
 }
+
+interface Technology extends SanityBody {
+  _type: "skill";
+  image: Image;
+  title: string;
+}
+
+interface Project extends SanityBody {
+  title: string;
+  image: Image;
+  _type: "project";
+  linkBuild: string;
+  summary: string;
+  technologies: Technology[];
+}
+
+interface Socials extends SanityBody {
+  _type: "socials";
+  image: Image;
+  title: string;
+  url: string;
+}
+
+interface PageInfo extends SanityBody {
+  _type: "pageInfo";
+  address: string;
+  avatarHero: Image;
+  backgroundAvatar: Image;
+  email: string;
+  name: string;
+  phoneNumber: string;
+  role: string;
+  socials: Socials[];
+  summary: string;
+  titleAbout: string;
+}

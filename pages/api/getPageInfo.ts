@@ -4,19 +4,19 @@ import { groq } from "next-sanity";
 import { sanityClient } from "../../sanity";
 
 type Data = {
-  projects: Project[];
+  pageInfo: PageInfo[];
 };
 
-const query = groq`*[_type=="project"] {
+const query = groq`*[_type=="pageInfo"] {
   ...,
-  technologies[]->
+  socials[]->
 }`;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const projects: Project[] = await sanityClient.fetch(query);
+  const pageInfo: PageInfo[] = await sanityClient.fetch(query);
 
-  res.status(200).json({ projects });
+  res.status(200).json({ pageInfo });
 }

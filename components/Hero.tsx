@@ -12,11 +12,18 @@ import {
   BsDownload,
 } from "react-icons/bs";
 
-type Props = {};
+type Props = {
+  pageInfo: PageInfo;
+};
 
-const Hero = (props: Props) => {
+const Hero = ({ pageInfo }: Props) => {
+  console.log("pageInfo: ", pageInfo);
   const [text, count] = useTypewriter({
-    words: ["Hi, The Name's TTP ", "I'm FrontEnd Developer", "I'm Student"],
+    words: [
+      `Hi, My name's ${pageInfo.name}`,
+      "I'm Front-end Developer",
+      "ReactJS Developer",
+    ],
     loop: true,
     delaySpeed: 2000,
   });
@@ -46,7 +53,7 @@ const Hero = (props: Props) => {
           transition={{ duration: 0.5 }}
           whileInView={{ opacity: 1, y: 0 }}
         >
-          Software Engieer
+          {pageInfo.role}
         </motion.h2>
         <h1 className="text-5xl lg:text-6xl font-semibold my-10">
           <span className="mr-3">{text}</span>
