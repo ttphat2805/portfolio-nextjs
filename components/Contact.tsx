@@ -177,10 +177,10 @@ const Contact = (props: Props) => {
               disabled={loading}
             >
               {loading ? <Loader /> : !checkMark ? "Send" : ""}
-              <div
+              <span
                 ref={checkMarkRef}
                 className="checkmark relative m-auto invisible"
-              ></div>
+              ></span>
             </button>
           </form>
         </div>

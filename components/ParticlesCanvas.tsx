@@ -1,13 +1,14 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import type { Container, Engine } from "tsparticles-engine";
-import { imageCanvas } from "../shared/contants";
-const ParticlesCanvas = () => {
+import { urlFor } from "../sanity";
+type Props = {
+  skills: Skills[];
+};
+const ParticlesCanvas = ({ skills }: Props) => {
+  console.log("skills: ", skills);
   const particlesInit = useCallback(async (engine: Engine) => {
-    // you can initialize the tsParticles instance (engine) here, adding custom shapes or presets
-    // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-    // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(engine);
   }, []);
 
@@ -15,6 +16,13 @@ const ParticlesCanvas = () => {
     async (container: Container | undefined) => {},
     []
   );
+
+  const imageCanvas = useMemo(() => {
+    return skills.map((skill: Skills) => ({
+      src: urlFor(skill.image).url(),
+    }));
+  }, [skills]);
+
   return (
     <Particles
       id="tsparticles"

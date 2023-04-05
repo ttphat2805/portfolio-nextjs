@@ -31,6 +31,8 @@ interface Project extends SanityBody {
   image: Image;
   _type: "project";
   linkBuild: string;
+  fromDate: Date;
+  toDate: Date;
   summary: string;
   technologies: Technology[];
 }

@@ -79,7 +79,7 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
           <Header socials={socials} />
           {/* HERO */}
           <section id="hero" data-scroll>
-            <Hero pageInfo={pageInfo} />
+            <Hero pageInfo={pageInfo} skills={skills} />
           </section>
           {/* ABOUT */}
           <section id="about" data-scroll>
@@ -87,11 +87,11 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
           </section>
           {/* SKILLS */}
           <section id="skills" data-scroll>
-            <Skills />
+            <Skills skills={skills} />
           </section>
           {/* PROJECTS */}
           <section id="projects" data-scroll>
-            <Projects />
+            <Projects project={projects} />
           </section>
           {/* CONTACT */}
           <section id="contact">

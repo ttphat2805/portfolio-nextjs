@@ -1,14 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
+import { urlFor } from "../sanity";
 type Props = {
-  directionLeft?: boolean;
-  skill: {
-    src: string;
-    text: string;
-  };
+  skill: Skills;
 };
 
-const Skill = ({ directionLeft, skill }: Props) => {
+const Skill = ({ skill }: Props) => {
   return (
     <div
       className="group cursor-pointer"
@@ -18,7 +15,7 @@ const Skill = ({ directionLeft, skill }: Props) => {
     >
       <motion.div
         initial={{
-          x: directionLeft ? -100 : 100,
+          x: skill.direction ? -100 : 100,
           opacity: 0,
         }}
         transition={{ duration: 0.5 }}
@@ -30,12 +27,12 @@ const Skill = ({ directionLeft, skill }: Props) => {
       >
         <div className="flex flex-col items-center w-full">
           <img
-            src={skill.src}
+            src={urlFor(skill.image).url()}
             alt="Skills"
             className="md:w-[5rem] md:h-[5rem] w-[3rem] h-[3rem] group-hover:scale-105 transition-all duration-300"
           />
           <p className="text-sm sm:text-base text-gray-400 group-hover:text-white transition-all duration-200 mt-1">
-            {skill.text}
+            {skill.title}
           </p>
         </div>
       </motion.div>

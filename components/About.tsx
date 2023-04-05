@@ -52,7 +52,7 @@ const About = ({ pageInfo }: Props) => {
               yourself
             </h4>
             <p
-              className="text-base"
+              className="text-base max-w-3xl break-words"
               data-scroll
               data-scroll-direction="horizontal"
               data-scroll-speed="-1"

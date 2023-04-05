@@ -12,6 +12,7 @@ module.exports = {
       },
       boxShadow: {
         skillsd: "0 15px 35px hsla(0,0%,65%,.171)",
+        projectsd: "0 2px 10px hsla(0,0%,65%,.171)",
       },
       fontFamily: {
         Pacifico: "Pacifico, cursive",

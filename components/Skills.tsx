@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
 import { motion } from "framer-motion";
 import Skill from "./Skill";
-import { listSkills } from "../shared/contants";
-type Props = {};
+type Props = {
+  skills: Skills[];
+};
 
-const Skills = (props: Props) => {
+const Skills = ({ skills }: Props) => {
   return (
     <motion.div className="flex flex-col relative h-screen text-center md:text-left max-w-7xl px-10 justify-evenly mx-auto mt-24">
       <h3
@@ -64,9 +65,9 @@ const Skills = (props: Props) => {
       </svg>
       {/* <div className="eclipse-1 absolute w-[500px] h-[500px] rounded-full"></div> */}
       <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-8 mx-auto md:mt-0 mt-10">
-        {listSkills.map((item, index) => (
+        {skills.map((item, index) => (
           <Fragment key={index}>
-            <Skill skill={item} directionLeft={item.direction} />
+            <Skill skill={item} />
           </Fragment>
         ))}
       </div>

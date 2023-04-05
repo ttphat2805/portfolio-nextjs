@@ -1,17 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { AiOutlineGithub } from "react-icons/ai";
-import { FaLinkedin } from "react-icons/fa";
-import { FiInstagram } from "react-icons/fi";
 import { HiMail } from "react-icons/hi";
-import { MdFacebook } from "react-icons/md";
 import { SocialIcon } from "react-social-icons";
 type Props = {
   socials: Socials[];
 };
 
-const Header = ({ socials }: Props) => {
+const Header = ({ socials = [] }: Props) => {
   return (
     <header className="sticky top-5 flex items-start justify-between max-w-7xl mx-auto my-5 z-20 xl:items-center px-3">
       <motion.div
@@ -34,10 +30,13 @@ const Header = ({ socials }: Props) => {
         data-scroll-speed="-1"
       >
         {/* Social Icons */}
-        {socials?.map((social: Socials, index: number) => (
-          <Link href={""} key={index}>
-            <SocialIcon url={social.url} fgColor="gray" bgColor="transparent" />
-          </Link>
+        {socials.map((social: Socials, index: number) => (
+          <SocialIcon
+            key={index}
+            url={social.url}
+            fgColor="gray"
+            bgColor="transparent"
+          />
         ))}
       </motion.div>
       <motion.div

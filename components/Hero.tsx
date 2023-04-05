@@ -1,23 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRef } from "react";
+import { BsArrowRight } from "react-icons/bs";
 import { Cursor, useTypewriter } from "react-simple-typewriter";
+import { urlFor } from "../sanity";
 import BackgroundCircles from "./BackgroundCircles";
 import ParticlesCanvas from "./ParticlesCanvas";
-import { motion } from "framer-motion";
-import {
-  BsArrowDownShort,
-  BsArrowRight,
-  BsArrowRightCircle,
-  BsDownload,
-} from "react-icons/bs";
 
 type Props = {
   pageInfo: PageInfo;
+  skills: Skills[];
 };
 
-const Hero = ({ pageInfo }: Props) => {
-  console.log("pageInfo: ", pageInfo);
+const Hero = ({ pageInfo, skills }: Props) => {
   const [text, count] = useTypewriter({
     words: [
       `Hi, My name's ${pageInfo.name}`,
@@ -30,7 +25,7 @@ const Hero = ({ pageInfo }: Props) => {
 
   return (
     <div className="h-screen relative flex flex-col space-y-8 items-center justify-center text-center">
-      <ParticlesCanvas />
+      <ParticlesCanvas skills={skills} />
       <BackgroundCircles />
       <motion.img
         initial={{
@@ -39,7 +34,7 @@ const Hero = ({ pageInfo }: Props) => {
         }}
         transition={{ duration: 0.5, delay: 0.2 }}
         whileInView={{ opacity: 1, y: 0 }}
-        src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+        src={urlFor(pageInfo.avatarHero).url()}
         className="relative rounded-full h-32 w-32 mx-auto object-cover"
         alt=""
       />
@@ -59,12 +54,12 @@ const Hero = ({ pageInfo }: Props) => {
           <span className="mr-3">{text}</span>
           <Cursor cursorColor="#F7AB0A" />
         </h1>
-        <a href="TranTanPhat_Resume.pdf" download>
-          <button className="group bg-transparent uppercase px-3 py-2 rounded-md shadow-lg border border-white hover:bg-white hover:text-bgmain hover:border-bgmain transition-all duration-300">
+        <button className="group bg-transparent uppercase px-3 py-2 rounded-md shadow-lg border border-white hover:bg-white hover:text-bgmain hover:border-bgmain transition-all duration-300">
+          <Link href="TranTanPhat_Resume.pdf" download>
             Dowload Resume{" "}
             <BsArrowRight className="inline-block text-2xl group-hover:ml-2" />
-          </button>
-        </a>
+          </Link>
+        </button>
       </div>
     </div>
   );

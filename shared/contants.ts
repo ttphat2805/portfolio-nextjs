@@ -46,76 +46,22 @@ export const imageCanvas = [
   },
 ];
 
-export const listSkills = [
-  {
-    text: "Javascript",
-    src: "/images/javascript.png",
-    direction: true,
-  },
-  {
-    text: "Typescript",
-    src: "/images/typescript.png",
-    direction: true,
-  },
-  {
-    text: "React",
-    src: "/images/React-icon.png",
-    direction: true,
-  },
-  {
-    text: "Angular",
-    src: "/images/angular.png",
-    direction: true,
-  },
-  {
-    text: "CSS3",
-    src: "/images/css3.png",
-    direction: true,
-  },
-  {
-    text: "HTML5",
-    src: "/images/html5.png",
-    direction: true,
-  },
-  {
-    text: "Docker",
-    src: "/images/docker.png",
-    direction: true,
-  },
-  {
-    text: "Firebase",
-    src: "/images/firebase.png",
-    direction: true,
-  },
-
-  {
-    text: "Mongodb",
-    src: "/images/mongodb.png",
-    direction: true,
-  },
-  { text: "NextJS", src: "/images/nextjs.png", direction: false },
-  { text: "NodeJS", src: "/images/nodejs.png", direction: false },
-  { text: "SCSS", src: "/images/scss.png", direction: false },
-  {
-    text: "Tailwind",
-    src: "/images/tailwindcss.png",
-    direction: false,
-  },
-
-  {
-    text: "Vercel",
-    src: "/images/vercel.png",
-    direction: false,
-  },
-  {
-    text: "Github",
-    src: "/images/github.png",
-    direction: false,
-  },
-];
-
 export const EMAILJS = {
   TEMPLATE_ID: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
   SERVICE_ID: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
   PUBLIC_KEY: "ymmyokYjiDNtvxwAS",
+};
+
+export const formatDate = (dateField: Date) => {
+  const date = new Date(dateField);
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+  };
+  const formattedDate = date
+    .toLocaleDateString("en-US", options)
+    .replace(/,/g, "");
+
+  return formattedDate;
 };

@@ -35,5 +35,23 @@ export default defineType({
       title: 'Link Build',
       type: 'url',
     },
+    {
+      name: 'fromDate',
+      title: 'From Date',
+      type: 'date',
+      options: {
+        dateFormat: 'MMM/DD/YYYY',
+        calendarTodayLabel: 'Today',
+      },
+    },
+    {
+      name: 'toDate',
+      title: 'To Date',
+      type: 'date',
+      options: {
+        dateFormat: 'MMM/DD/YYYY',
+        calendarTodayLabel: 'Today',
+      },
+    },
   ],
 })
