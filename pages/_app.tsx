@@ -13,21 +13,21 @@ export default function App({ Component, pageProps }: AppProps) {
           type="image/x-icon"
         />
 
-        <title>{`TTPhat's Portfolio`}</title>
+        <title>{`Tran Tan Phat - Portfolio`}</title>
 
-        <meta name="title" content="TTPhat's Portfolio" />
-        <meta name="description" content="Tran Tan Phat's Portfolio" />
+        <meta name="title" content="Tran Tan Phat Portfolio" />
+        <meta name="description" content="Tran Tan Phat Portfolio" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="TTPhat's Portfolio" />
-        <meta property="og:description" content="Tran Tan Phat's Portfolio" />
+        <meta property="og:title" content="Tran Tan Phat Portfolio" />
+        <meta property="og:description" content="Tran Tan Phat Portfolio" />
         <meta property="og:image" content="/avatar.jpg" />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content="TTPhat's Portfolio" />
+        <meta property="twitter:title" content="Tan Phat Portfolio" />
         <meta
           property="twitter:description"
-          content="Tran Tan Phat's Portfolio"
+          content="Tran Tan Phat Portfolio"
         />
         <meta property="twitter:image" content="/avatar.jpg" />
       </Head>

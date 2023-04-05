@@ -41,12 +41,12 @@ const Projects = ({ project }: Props) => {
             transition={{ duration: 1 }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="bg-[#313552d2] grid grid-cols-1 md:grid-cols-2 p-3 md:p-̀5 rounded-lg backdrop-blur-lg border-b border-primary hover:border-b-4 transition-all duration-300">
+            <div className="group bg-[#313552d2] grid grid-cols-1 md:grid-cols-2 p-3 md:p-̀5 rounded-lg backdrop-blur-lg border-b border-primary hover:border-b-4 transition-all duration-300">
               <div className="col-span-1 p-2 md:p-5 rounded-md">
                 <img
                   src={urlFor(item.image).url()}
                   alt=""
-                  className="h-[18rem] sm:h-[20rem] md:h-[18rem] lg:h-[22rem] w-full object-cover rounded-lg hover:scale-[1.01] transition-transform duration-300"
+                  className="h-[18rem] sm:h-[20rem] md:h-[18rem] lg:h-[22rem] w-full object-cover rounded-lg group-hover:scale-[1.01] transition-transform"
                 />
               </div>
 
