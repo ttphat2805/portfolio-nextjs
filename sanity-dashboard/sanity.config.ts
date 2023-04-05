@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'default',
   title: 'sanity-dashboard',
 
-  projectId: 'qn7ivsda',
-  dataset: 'production',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
 
   plugins: [deskTool(), visionTool()],
 
