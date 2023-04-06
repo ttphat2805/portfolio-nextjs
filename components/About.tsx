@@ -21,7 +21,7 @@ const About = ({ pageInfo }: Props) => {
         >
           About
         </h3>
-        <div className="flex md:flex-row flex-col items-center">
+        <div className="flex md:flex-row flex-col items-center w-full">
           <motion.img
             src={urlFor(pageInfo.backgroundAvatar).url()}
             alt=""
@@ -40,9 +40,9 @@ const About = ({ pageInfo }: Props) => {
             className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-cover"
           />
 
-          <div className="space-y-5 px-0 md:px-10 text-center md:mt-0 mt-5">
+          <div className="px-0 md:px-10 text-center md:mt-0 mt-5 w-full">
             <h4
-              className="text-4xl font-semibold"
+              className="text-4xl font-semibold mb-5"
               data-scroll
               data-scroll-direction="horizontal"
               data-scroll-speed="2"
