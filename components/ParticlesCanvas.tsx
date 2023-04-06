@@ -7,7 +7,6 @@ type Props = {
   skills: Skills[];
 };
 const ParticlesCanvas = ({ skills }: Props) => {
-  console.log("skills: ", skills);
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);

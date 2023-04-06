@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoMdInformationCircle } from "react-icons/io";
-import { EMAILJS } from "../shared/contants";
 import Loader from "./Loader";
+import { EMAILJS } from "../shared/contants";
 type Props = {};
 
 type FormValues = {
