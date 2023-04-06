@@ -8,7 +8,7 @@ import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 import Footer from "../components/Footer";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import {
   getPageInfo,
   getProjects,
@@ -107,7 +107,7 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
   );
 }
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<Props> = async () => {
   const pageInfo: PageInfo = await getPageInfo();
   const projects: Project[] = await getProjects();
   const skills: Skills[] = await getSkills();
