@@ -1,10 +1,13 @@
+import { AiFillHeart } from "react-icons/ai";
+
 type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <div className="bg-bgmain pb-5 h-[4rem] md:h-[3rem] flex flex-col justify-center items-center text-white">
-      <p className="text-[12px] px-5">
-        Built by Tran Tan Phat | Copyright © 2023 All Rights Reserved.
+    <div className="dark:bg-dark bg-white md:h-[2rem] flex flex-col justify-center items-center">
+      <p className="text-sm px-5 text-textdark dark:text-white flex justify-center items-center">
+        Built by Tran Tan Phat | Copyright © 2023 All Rights Reserved{" "}
+        <AiFillHeart className="text-red-500" />.
       </p>
     </div>
   );

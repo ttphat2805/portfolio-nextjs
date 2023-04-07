@@ -27,7 +27,7 @@ const Projects = ({ project }: Props) => {
         Projects
       </h3>
 
-      <div className="w-full absolute top-[30%] bg-primary/10 left-0 h-[500px] -skew-y-12 z-0"></div>
+      <div className="w-full absolute top-[30%] bg-primary/20 left-0 h-[500px] -skew-y-12 z-0"></div>
 
       <div className="projects flex flex-col gap-32 relative mx-auto z-1">
         {project.map((item: Project, index: number) => (
@@ -41,7 +41,11 @@ const Projects = ({ project }: Props) => {
             transition={{ duration: 1 }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <div className="group bg-[#313552d2] grid grid-cols-1 md:grid-cols-2 p-3 md:p-̀5 rounded-lg backdrop-blur-lg border-b border-primary hover:border-b-4 transition-all duration-300">
+            <div
+              className="group bg-light/70 dark:bg-dark/70 dark:shadow-sdlight shadow-sddark
+            grid grid-cols-1 md:grid-cols-2 p-3 md:p-̀5 rounded-2xl backdrop-blur-xl
+            transition-all duration-300"
+            >
               <div className="col-span-1 p-2 md:p-5 rounded-md">
                 <img
                   src={urlFor(item.image).url()}
@@ -52,14 +56,14 @@ const Projects = ({ project }: Props) => {
 
               <div className="col-span-1 p-3 md:p-5 my-auto text-left">
                 <div className="title">
-                  <h4 className="text-2xl md:text-4xl text-white font-bold font-Pacifico">
+                  <h4 className="text-2xl md:text-4xl text-primary font-bold font-Pacifico">
                     {item.title}
                   </h4>
                 </div>
-                <div className="desc mt-5 text-white font-medium text-sm md:text-base">
+                <div className="desc mt-5 text-textlight dark:text-textdark font-medium text-sm md:text-base">
                   {item.summary}
                 </div>
-                <div className="date my-4">
+                <div className="date my-4 text-textlight dark:text-textdark">
                   {`${formatDate(item.fromDate)} - ${formatDate(item.toDate)}`}
                 </div>
                 <div className="tech flex gap-3 justify-center md:justify-start">
@@ -88,7 +92,7 @@ const Projects = ({ project }: Props) => {
                         transition={{
                           duration: 0.2,
                         }}
-                        className="border border-[#1b222b] bg-[#1b222b] py-3 px-4 rounded-lg shadow-sm flex items-center justify-center hover:opacity-90 transition-all duration-300"
+                        className="border border-[#1b222b] bg-[#1b222b] text-white py-3 px-4 rounded-lg shadow-sm flex items-center justify-center hover:opacity-90 transition-all duration-300"
                       >
                         <AiOutlineGithub className="inline-block text-2xl mr-2" />
                         View Github{" "}

@@ -25,7 +25,7 @@ type Props = {
 
 export default function Home({ pageInfo, skills, projects, socials }: Props) {
   const containerRef = useRef(null);
-
+  const [theme, setTheme] = useState<boolean>(false);
   const [mousePosition, setMousePosition] = useState({
     x: 0,
     y: 0,
@@ -53,10 +53,19 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
     },
   };
 
+  useEffect(() => {
+    const element = document!.documentElement;
+    if (theme) {
+      element.classList.remove("dark");
+    } else {
+      element.classList.add("dark");
+    }
+  }, [theme]);
+
   return (
-    <div className="bg-bgmain text-white z-0 overflow-x-hidden scroll-smooth">
+    <div className="dark:bg-bgmain bg-white/80 dark:text-white z-0 overflow-x-hidden scroll-smooth">
       <motion.div
-        className="w-[32px] h-[32px] border border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100]"
+        className="w-[32px] h-[32px] border border-gray-400 dark:border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100]"
         variants={variants}
         animate={"default"}
         transition={{ duration: 0.07 }}
@@ -76,7 +85,7 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
       >
         <main data-scroll-container ref={containerRef}>
           {/* HEADER */}
-          <Header socials={socials} />
+          <Header socials={socials} theme={theme} setTheme={setTheme} />
           {/* HERO */}
           <section id="hero" data-scroll>
             <Hero pageInfo={pageInfo} skills={skills} />
@@ -94,8 +103,8 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
             <Projects project={projects} />
           </section>
           {/* CONTACT */}
-          <section id="contact">
-            <Contact />
+          <section id="contact" data-scroll>
+            <Contact theme={theme} />
           </section>
           {/* FOOTER */}
           <section id="footer" data-scroll>

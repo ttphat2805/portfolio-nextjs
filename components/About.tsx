@@ -42,7 +42,7 @@ const About = ({ pageInfo }: Props) => {
 
           <div className="px-0 md:px-10 text-center md:mt-0 mt-5 w-full">
             <h4
-              className="text-4xl font-semibold mb-5"
+              className="text-4xl text-primary font-semibold mb-5"
               data-scroll
               data-scroll-direction="horizontal"
               data-scroll-speed="2"
@@ -52,7 +52,7 @@ const About = ({ pageInfo }: Props) => {
               yourself
             </h4>
             <p
-              className="text-base max-w-3xl break-words"
+              className="text-base text-textlight dark:text-textdark max-w-3xl break-words"
               data-scroll
               data-scroll-direction="horizontal"
               data-scroll-speed="-1"

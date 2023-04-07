@@ -36,7 +36,7 @@ const Skills = ({ skills }: Props) => {
               values="0%;10%;0%"
               repeatCount="indefinite"
             ></animate>
-            <stop offset="0%" stopColor="#f7ac0a93"></stop>
+            <stop offset="0%" stopColor="#FFE47A"></stop>
             <stop offset="100%" stopColor="#00aeef00"></stop>
           </radialGradient>
         </defs>
