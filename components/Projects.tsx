@@ -9,7 +9,6 @@ type Props = {
 };
 
 const Projects = ({ project }: Props) => {
-  console.log("project: ", project);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -60,13 +59,25 @@ const Projects = ({ project }: Props) => {
                     {item.title}
                   </h4>
                 </div>
-                <div className="desc mt-5 text-textlight dark:text-textdark font-medium text-sm md:text-base">
-                  {item.summary}
-                </div>
+                {item.summary.length > 0 &&
+                  item.summary.map((text: SanityBlock, index: number) => {
+                    if (text._type !== "block" || !text.children) {
+                      return "";
+                    }
+                    return (
+                      <p
+                        key={index}
+                        className="desc text-textlight dark:text-textdark font-medium text-sm md:text-base"
+                        dangerouslySetInnerHTML={{
+                          __html: text.children[0].text,
+                        }}
+                      />
+                    );
+                  })}
                 <div className="date my-4 text-textlight dark:text-textdark">
                   {`${formatDate(item.fromDate)} - ${formatDate(item.toDate)}`}
                 </div>
-                <div className="tech flex gap-3 justify-center md:justify-start">
+                <div className="tech flex-wrap flex gap-3 justify-center md:justify-start">
                   {item.technologies.map((tech: Technology, index: number) => (
                     <motion.img
                       key={index}

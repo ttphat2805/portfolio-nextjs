@@ -5,6 +5,16 @@ interface SanityBody {
   _updatedAt: string;
 }
 
+interface SanityBlock {
+  children: array<any>;
+  level: number;
+  listItem: string;
+  markDefs: array<any>;
+  style: string;
+  _key: string;
+  _type: string;
+}
+
 interface Image {
   _type: "image";
   asset: {
@@ -33,7 +43,7 @@ interface Project extends SanityBody {
   linkBuild: string;
   fromDate: Date;
   toDate: Date;
-  summary: string;
+  summary: SanityBlock[];
   technologies: Technology[];
 }
 
@@ -54,6 +64,6 @@ interface PageInfo extends SanityBody {
   phoneNumber: string;
   role: string;
   socials: Socials[];
-  summary: string;
+  summary: SanityBlock[];
   titleAbout: string;
 }

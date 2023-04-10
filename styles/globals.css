@@ -7,7 +7,7 @@
 
 @layer components {
   .tech-icon {
-    @apply w-[50px] h-[50px] border dark:border-white/20 border-dark/20 rounded-full p-2 shadow-md hover:bg-dark hover:border-dark dark:hover:border-white dark:hover:bg-white transition duration-300;
+    @apply w-[50px] h-[50px] border object-contain dark:border-white/20 border-dark/20 rounded-full p-2 shadow-md hover:bg-dark hover:border-dark dark:hover:border-white dark:hover:bg-white transition duration-300;
   }
   .form-control {
     @apply p-2 px-3 outline-none rounded-lg my-2 w-full bg-transparent text-white border border-white focus:border-primary transition-all duration-200;

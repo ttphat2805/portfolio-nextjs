@@ -1,57 +1,62 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from "sanity";
 
 export default defineType({
-  name: 'project',
-  title: 'Projects',
-  type: 'document',
+  name: "project",
+  title: "Projects",
+  type: "document",
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      description: 'Title of the project',
-      type: 'string',
+      name: "title",
+      title: "Title",
+      description: "Title of the project",
+      type: "string",
     },
     {
-      name: 'image',
-      title: 'Image',
-      type: 'image',
+      name: "image",
+      title: "Image",
+      type: "image",
       options: {
         hotspot: true,
       },
     },
     {
-      name: 'summary',
-      title: 'Summary',
-      type: 'text',
+      name: "summary",
+      title: "Summary",
+      type: "array",
+      of: [
+        {
+          type: "block",
+        },
+      ],
     },
     {
-      name: 'technologies',
-      title: 'Technologies',
-      type: 'array',
-      of: [{type: 'reference', to: {type: 'skill'}}],
+      name: "technologies",
+      title: "Technologies",
+      type: "array",
+      of: [{ type: "reference", to: { type: "skill" } }],
     },
     {
-      name: 'linkBuild',
-      title: 'Link Build',
-      type: 'url',
+      name: "linkBuild",
+      title: "Link Build",
+      type: "url",
     },
     {
-      name: 'fromDate',
-      title: 'From Date',
-      type: 'date',
+      name: "fromDate",
+      title: "From Date",
+      type: "date",
       options: {
-        dateFormat: 'MMM/DD/YYYY',
-        calendarTodayLabel: 'Today',
+        dateFormat: "MMM/DD/YYYY",
+        calendarTodayLabel: "Today",
       },
     },
     {
-      name: 'toDate',
-      title: 'To Date',
-      type: 'date',
+      name: "toDate",
+      title: "To Date",
+      type: "date",
       options: {
-        dateFormat: 'MMM/DD/YYYY',
-        calendarTodayLabel: 'Today',
+        dateFormat: "MMM/DD/YYYY",
+        calendarTodayLabel: "Today",
       },
     },
   ],
-})
+});

@@ -51,14 +51,21 @@ const About = ({ pageInfo }: Props) => {
               <span className="underline decoration-primary">about</span>{" "}
               yourself
             </h4>
-            <p
-              className="text-base text-textlight dark:text-textdark max-w-3xl break-words"
-              data-scroll
-              data-scroll-direction="horizontal"
-              data-scroll-speed="-1"
-            >
-              {pageInfo.summary}
-            </p>
+            {pageInfo?.summary.map((text: SanityBlock, index: number) => {
+              if (text._type !== "block" || !text.children) {
+                return "";
+              }
+              return (
+                <p
+                  key={index}
+                  className="text-base text-textlight dark:text-textdark max-w-3xl break-words"
+                  data-scroll
+                  data-scroll-direction="horizontal"
+                  data-scroll-speed="-1"
+                  dangerouslySetInnerHTML={{ __html: text.children[0].text }}
+                />
+              );
+            })}
           </div>
         </div>
       </motion.div>
