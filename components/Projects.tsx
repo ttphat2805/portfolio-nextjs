@@ -59,21 +59,23 @@ const Projects = ({ project }: Props) => {
                     {item.title}
                   </h4>
                 </div>
-                {item.summary.length > 0 &&
-                  item.summary.map((text: SanityBlock, index: number) => {
-                    if (text._type !== "block" || !text.children) {
-                      return "";
-                    }
-                    return (
-                      <p
-                        key={index}
-                        className="desc text-textlight dark:text-textdark font-medium text-sm md:text-base"
-                        dangerouslySetInnerHTML={{
-                          __html: text.children[0].text,
-                        }}
-                      />
-                    );
-                  })}
+                <div className="my-3">
+                  {item.summary.length > 0 &&
+                    item.summary.map((text: SanityBlock, index: number) => {
+                      if (text._type !== "block" || !text.children) {
+                        return "";
+                      }
+                      return (
+                        <p
+                          key={index}
+                          className="desc text-textlight dark:text-textdark font-medium text-sm md:text-base"
+                          dangerouslySetInnerHTML={{
+                            __html: text.children[0].text,
+                          }}
+                        />
+                      );
+                    })}
+                </div>
                 <div className="date my-4 text-textlight dark:text-textdark">
                   {`${formatDate(item.fromDate)} - ${formatDate(item.toDate)}`}
                 </div>
