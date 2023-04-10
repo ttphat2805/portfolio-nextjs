@@ -15,7 +15,7 @@ const Skill = ({ skill }: Props) => {
     >
       <motion.div
         initial={{
-          x: skill.direction ? -100 : 100,
+          x: 100,
           opacity: 0,
         }}
         transition={{ duration: 0.5 }}

@@ -26,18 +26,18 @@ const About = ({ pageInfo }: Props) => {
             src={urlFor(pageInfo.backgroundAvatar).url()}
             alt=""
             initial={{
-              x: -200,
+              x: -300,
               opacity: 0,
             }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{
-              duration: 1.2,
+              duration: 1.3,
             }}
             viewport={{ once: true }}
             data-scroll
             data-scroll-direction="vertical"
-            data-scroll-speed="5"
-            className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[500px] xl:h-[500px] object-cover"
+            data-scroll-speed="2"
+            className="flex-shrink-0 w-56 h-56 rounded-full md:rounded-lg md:w-64 md:h-95 xl:w-[450px] xl:h-[450px] object-cover"
           />
 
           <div className="px-0 md:px-10 text-center md:mt-0 mt-5 w-full">

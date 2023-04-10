@@ -52,7 +52,7 @@ const Hero = ({ pageInfo, skills }: Props) => {
           <Cursor cursorColor="#f89d36" />
         </h1>
         <button className="bg-transparent font-medium px-3 py-2 rounded-md shadow-lg border border-primary text-primary hover:brightness-105 hover:bg-primary hover:text-white hover:border-primary transition-all duration-300">
-          <Link href="TranTanPhat_Resume.pdf" download>
+          <Link href="CV_TranTanPhat_FrontendDev.pdf" download>
             Download CV <TbDownload className="inline-block text-xl" />
           </Link>
         </button>
