@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IoMdInformationCircle } from "react-icons/io";
 import Loader from "./Loader";
@@ -215,4 +215,4 @@ const Contact = ({ theme }: Props) => {
   );
 };
 
-export default Contact;
+export default memo(Contact);
