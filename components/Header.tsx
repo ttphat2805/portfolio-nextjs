@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { HiMail } from "react-icons/hi";
+import { memo } from "react";
 import { SocialIcon } from "react-social-icons";
 import DarkMode from "./DarkMode";
 type Props = {
@@ -66,4 +65,4 @@ const Header = ({ socials = [], theme, setTheme }: Props) => {
   );
 };
 
-export default Header;
+export default memo(Header);

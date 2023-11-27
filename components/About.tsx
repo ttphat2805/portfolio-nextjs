@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { urlFor } from "../sanity";
+import { memo } from "react";
 type Props = {
   pageInfo: PageInfo;
 };
@@ -73,4 +74,4 @@ const About = ({ pageInfo }: Props) => {
   );
 };
 
-export default About;
+export default memo(About);

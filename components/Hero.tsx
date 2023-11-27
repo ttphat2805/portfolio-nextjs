@@ -7,6 +7,7 @@ import { Cursor, useTypewriter } from "react-simple-typewriter";
 import { urlFor } from "../sanity";
 import BackgroundCircles from "./BackgroundCircles";
 import ParticlesCanvas from "./ParticlesCanvas";
+import { memo } from "react";
 
 type Props = {
   pageInfo: PageInfo;
@@ -61,4 +62,4 @@ const Hero = ({ pageInfo, skills }: Props) => {
   );
 };
 
-export default Hero;
+export default memo(Hero);

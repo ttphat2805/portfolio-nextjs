@@ -4,6 +4,7 @@ import { AiOutlineGithub } from "react-icons/ai";
 import { urlFor } from "../sanity";
 import Link from "next/link";
 import { formatDate } from "../shared/contants";
+import { memo } from "react";
 type Props = {
   project: Project[];
 };
@@ -126,4 +127,4 @@ const Projects = ({ project }: Props) => {
   );
 };
 
-export default Projects;
+export default memo(Projects);

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, memo } from "react";
 import { motion } from "framer-motion";
 import Skill from "./Skill";
 type Props = {
@@ -75,4 +75,4 @@ const Skills = ({ skills }: Props) => {
   );
 };
 
-export default Skills;
+export default memo(Skills);
