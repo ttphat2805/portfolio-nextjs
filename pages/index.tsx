@@ -54,6 +54,7 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
   };
 
   useEffect(() => {
+    console.log("theme: ", theme);
     const element = document!.documentElement;
     if (theme) {
       element.classList.remove("dark");

@@ -77,7 +77,11 @@ const Projects = ({ project }: Props) => {
                     })}
                 </div>
                 <div className="date my-4 text-textlight dark:text-textdark">
-                  {`${formatDate(item.fromDate)} - ${formatDate(item.toDate)}`}
+                  {`${formatDate(item.fromDate)} - ${
+                    formatDate(item.toDate)
+                      ? formatDate(item.toDate)
+                      : "Present"
+                  }`}
                 </div>
                 <div className="tech flex-wrap flex gap-3 justify-center md:justify-start">
                   {item.technologies.map((tech: Technology, index: number) => (
