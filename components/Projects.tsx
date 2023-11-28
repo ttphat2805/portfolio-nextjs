@@ -28,7 +28,7 @@ const Projects = ({ project }: Props) => {
       </h3>
 
       <div className="w-full absolute top-[30%] bg-primary/20 left-0 h-[500px] -skew-y-12 z-0"></div>
-
+{/* 
       <div className="projects flex flex-col gap-32 relative mx-auto z-1">
         {project.map((item: Project, index: number) => (
           <motion.div
@@ -41,6 +41,7 @@ const Projects = ({ project }: Props) => {
             transition={{ duration: 1 }}
             whileInView={{ opacity: 1, x: 0 }}
           >
+            {JSON.stringify(item)}
             <div
               className="group bg-light/70 dark:bg-dark/70 dark:shadow-sdlight shadow-sddark
             grid grid-cols-1 md:grid-cols-2 p-3 md:p-̀5 rounded-2xl backdrop-blur-xl
@@ -48,7 +49,7 @@ const Projects = ({ project }: Props) => {
             >
               <div className="col-span-1 p-2 md:p-5 rounded-md">
                 <img
-                  src={urlFor(item.image).url()}
+                  // src={urlFor(item.image).url()}
                   alt=""
                   className="h-[18rem] sm:h-[20rem] md:h-[18rem] lg:h-[22rem] w-full object-cover rounded-lg group-hover:scale-[1.01] transition-transform"
                 />
@@ -122,7 +123,7 @@ const Projects = ({ project }: Props) => {
             </div>
           </motion.div>
         ))}
-      </div>
+      </div> */}
     </motion.div>
   );
 };
