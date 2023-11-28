@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import { useEffect, useRef, useState } from "react";
 import { LocomotiveScrollProvider } from "react-locomotive-scroll";
 import About from "../components/About";
@@ -10,10 +10,10 @@ import Hero from "../components/Hero";
 import Projects from "../components/Projects";
 import Skills from "../components/Skills";
 import {
-  getPageInfo,
-  getProjects,
-  getSkills,
-  getSocials,
+getPageInfo,
+getProjects,
+getSkills,
+getSocials,
 } from "../services/http";
 
 type Props = {
@@ -117,7 +117,7 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getStaticProps : GetStaticProps<Props> = async () => {
   const pageInfo: PageInfo = await getPageInfo();
   const projects: Project[] = await getProjects();
   const skills: Skills[] = await getSkills();
