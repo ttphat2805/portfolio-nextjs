@@ -63,7 +63,7 @@ const Skills = ({ skills }: Props) => {
           ></animateTransform>
         </rect>
       </svg>
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-8 mx-auto md:mt-0 mt-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-8 mx-auto md:mt-0 mt-10">
         {skills.map((item, index) => (
           <Fragment key={index}>
             <Skill skill={item} />
