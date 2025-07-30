@@ -36,18 +36,13 @@ body {
 }
 
 
-.shape-fill-dark {
-  fill: #172029;
-}
-
 .shape-fill-white {
   fill: #ffff;
 }
-
 .bg-gradient {
-  background: #3ca55c;
-  background: -webkit-linear-gradient(to right, #b5ac4992, #3ca55c);
-  background: linear-gradient(to right, #b5ac49a1, #3ca55c80);
+  background: #6366f1;
+  background: -webkit-linear-gradient(to right, #6366f1, #1e293b);
+  background: linear-gradient(to right, #6366f1, #1e293b);
 }
 
 

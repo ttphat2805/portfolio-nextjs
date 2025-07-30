@@ -8,20 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#f89d36",
-        bgmain: "#172029",
-        light: "#ecedef",
-        dark: "#253649",
-        textdark: "#9bacc4",
-        textlight: "#8492a6",
+        primary: "#6366f1",   // Xanh tím hiện đại
+        bgmain: "#0f172a",    // Màu nền đậm
+        light: "#f1f5f9",     // Màu sáng trắng xám
+        dark: "#1e293b",      // Nền tối
+        textdark: "#e2e8f0",  // Text sáng dark mode
+        textlight: "#334155", // Text tối sáng mode
       },
       boxShadow: {
-        skillsd: "0 15px 35px hsla(0,0%,65%,.171)",
-        sdlight: "rgba(165, 164, 164, 0.15) 0px 5px 15px 0px",
-        sddark: "rgba(44, 44, 44, 0.15) 0px 5px 15px 0px",
+        skillsd: "0 15px 35px rgba(100,100,111,0.2)",
+        sdlight: "0 5px 15px rgba(0,0,0,0.05)",
+        sddark: "0 5px 15px rgba(255,255,255,0.05)",
       },
       fontFamily: {
         Pacifico: "Pacifico, cursive",
+        sans: ["Inter", "sans-serif"],
       },
     },
   },

@@ -18,10 +18,11 @@ const ParticlesCanvas = ({ skills }: Props) => {
 
   const imageCanvas = useMemo(() => {
     return skills.map((skill: Skills) => ({
-      src: urlFor(skill.image).url(),
+      src: urlFor(skill.image).width(60).height(60).url(),
+      width: 60,
+      height: 60,
     }));
   }, [skills]);
-
   return (
     <Particles
       id="tsparticles"
@@ -87,9 +88,9 @@ const ParticlesCanvas = ({ skills }: Props) => {
           number: {
             density: {
               enable: true,
-              area: 10000,
+              area: 10000, // was 10000
             },
-            value: 100,
+            value: 100, // was 100
           },
 
           opacity: { value: { min: 0.5, max: 0.8 } },
@@ -110,7 +111,7 @@ const ParticlesCanvas = ({ skills }: Props) => {
             },
           },
         },
-        detectRetina: true,
+        detectRetina: false,
       }}
     />
   );

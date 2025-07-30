@@ -14,14 +14,14 @@ const About = ({ pageInfo }: Props) => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
       >
-        <h3
-          className="uppercase tracking-[20px] text-gray-500 text-4xl md:text-6xl text-center"
-          data-scroll
-          data-scroll-direction="horizontal"
-          data-scroll-speed="2"
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-4xl tracking-[20px] uppercase md:text-6xl lg:text-7xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary mb-10"
         >
           About
-        </h3>
+        </motion.h2>
         <div className="flex md:flex-row flex-col items-center w-full">
           <motion.img
             src={urlFor(pageInfo.backgroundAvatar).url()}

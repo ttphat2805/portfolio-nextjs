@@ -7,29 +7,39 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <link
-          rel="shortcut icon"
-          href="/rounded-avatar.png"
-          type="image/x-icon"
-        />
-
-        <title>{`Tran Tan Phat - Portfolio`}</title>
-
-        <meta name="title" content="Tran Tan Phat Portfolio" />
-        <meta name="description" content="Tran Tan Phat Portfolio" />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Tran Tan Phat Portfolio" />
-        <meta property="og:description" content="Tran Tan Phat Portfolio" />
-        <meta property="og:image" content="/avatar.jpg" />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content="Tan Phat Portfolio" />
+        <title>Tran Tan Phat - Frontend Developer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
-          property="twitter:description"
-          content="Tran Tan Phat Portfolio"
+          name="title"
+          content="Tran Tan Phat - Frontend Developer Portfolio"
         />
-        <meta property="twitter:image" content="/avatar.jpg" />
+        <meta
+          name="description"
+          content="Hi, I'm Phat – a frontend developer with passion for modern web."
+        />
+
+        {/* Favicon */}
+        <link rel="icon" href="/rel-images.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Tran Tan Phat - Portfolio" />
+        <meta
+          property="og:description"
+          content="Frontend Developer portfolio showcasing React, Next.js, and more."
+        />
+        <meta property="og:image" content="/avatar.jpg" />
+        <meta property="og:url" content="https://yourdomain.com" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Tran Tan Phat - Frontend Portfolio"
+        />
+        <meta name="twitter:description" content="Tran Tan Phat Portfolio" />
+        <meta name="twitter:image" content="/avatar.jpg" />
       </Head>
       <LazyMotion features={domAnimation}>
         <Component {...pageProps} />

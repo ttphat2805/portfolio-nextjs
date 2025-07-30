@@ -36,6 +36,7 @@ const Header = ({ socials = [], theme, setTheme }: Props) => {
           {socials.map((social: Socials, index: number) => (
             <SocialIcon
               key={index}
+              title={social.title}
               url={social.url}
               fgColor="gray"
               bgColor="transparent"
