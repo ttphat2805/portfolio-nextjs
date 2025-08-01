@@ -55,7 +55,7 @@ const Projects = ({ project }: Props) => {
       className="relative min-h-screen py-20 overflow-hidden"
     >
       {/* Animated Background Elements */}
-      <div className="sm:h-[700px] h-[500px] "></div>
+      <div className="h-[700px] sm:h-[400px] "></div>
       <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
         <div className="absolute top-1/4 left-0 w-full h-96 bg-gradient-to-r from-primary/10 via-primary/20 to-transparent -skew-y-12 transform" />
         <div className="absolute top-1/2 right-0 w-3/4 h-64 bg-gradient-to-l from-secondary/10 via-secondary/20 to-transparent skew-y-6 transform" />
