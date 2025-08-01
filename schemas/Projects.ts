@@ -58,5 +58,11 @@ export default defineType({
         calendarTodayLabel: "Today",
       },
     },
+    {
+      name: "order",
+      title: "Display Order",
+      type: "number",
+      description: "Lower numbers appear first (e.g. 1 = highest priority)",
+    },
   ],
 });

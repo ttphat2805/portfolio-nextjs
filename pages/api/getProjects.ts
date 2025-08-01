@@ -7,16 +7,18 @@ type Data = {
   projects: Project[];
 };
 
-const query = groq`*[_type=="project"] {
-  ...,
-  technologies[]->
-}`;
+// ✅ Sắp xếp project theo trường `order` tăng dần
+const query = groq`
+  *[_type == "project"] | order(order asc) {
+    ...,
+    technologies[]->
+  }
+`;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
   const projects: Project[] = await sanityClient.fetch(query);
-
   res.status(200).json({ projects });
 }

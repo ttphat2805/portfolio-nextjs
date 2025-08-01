@@ -45,6 +45,7 @@ interface Project extends SanityBody {
   toDate: Date;
   summary: SanityBlock[];
   technologies: Technology[];
+  order: number;
 }
 
 interface Socials extends SanityBody {
