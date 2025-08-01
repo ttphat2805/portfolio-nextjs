@@ -29,8 +29,11 @@ export default function App({ Component, pageProps }: AppProps) {
           property="og:description"
           content="Frontend Developer portfolio showcasing React, Next.js, and more."
         />
-        <meta property="og:image" content="/avatar.jpg" />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta
+          property="og:image"
+          content="https://portfolio-ttp.vercel.app/preview.png"
+        />
+        <meta property="og:url" content="https://portfolio-ttp.vercel.app" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -39,8 +42,12 @@ export default function App({ Component, pageProps }: AppProps) {
           content="Tran Tan Phat - Frontend Portfolio"
         />
         <meta name="twitter:description" content="Tran Tan Phat Portfolio" />
-        <meta name="twitter:image" content="/avatar.jpg" />
+        <meta
+          name="twitter:image"
+          content="https://portfolio-ttp.vercel.app/preview.png"
+        />
       </Head>
+
       <LazyMotion features={domAnimation}>
         <Component {...pageProps} />
       </LazyMotion>
