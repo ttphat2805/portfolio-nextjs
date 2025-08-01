@@ -55,7 +55,7 @@ const Projects = ({ project }: Props) => {
       className="relative min-h-screen py-20 overflow-hidden"
     >
       {/* Animated Background Elements */}
-      <div className="h-[500px]"></div>
+      <div className="sm:h-[700px] h-[500px] "></div>
       <motion.div style={{ y: backgroundY }} className="absolute inset-0 z-0">
         <div className="absolute top-1/4 left-0 w-full h-96 bg-gradient-to-r from-primary/10 via-primary/20 to-transparent -skew-y-12 transform" />
         <div className="absolute top-1/2 right-0 w-3/4 h-64 bg-gradient-to-l from-secondary/10 via-secondary/20 to-transparent skew-y-6 transform" />
@@ -190,7 +190,7 @@ const Projects = ({ project }: Props) => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary font-Pacifico"
+                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary"
                   >
                     {item.title}
                   </motion.h3>
