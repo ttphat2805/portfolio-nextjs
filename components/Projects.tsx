@@ -139,7 +139,7 @@ const Projects = ({ project }: Props) => {
                     <img
                       src={urlFor(item.image).url()}
                       alt={`${item.title} preview`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-fit transition-transform duration-700 group-hover:scale-105"
                     />
 
                     {/* Overlay */}
@@ -229,9 +229,7 @@ const Projects = ({ project }: Props) => {
                     <span className="w-2 h-2 bg-primary rounded-full" />
                     <span className="font-medium">
                       {`${formatDate(item.fromDate)} - ${
-                        formatDate(item.toDate)
-                          ? formatDate(item.toDate)
-                          : "Present"
+                        item.toDate ? formatDate(item.toDate) : "Present"
                       }`}
                     </span>
                   </motion.div>
