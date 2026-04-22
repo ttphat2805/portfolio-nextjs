@@ -1,5 +1,7 @@
 import { createClient } from "next-sanity";
-import createImageUrlBuilder from "@sanity/image-url";
+// ✅ Named export — default export deprecated in @sanity/image-url v2
+import { createImageUrlBuilder } from "@sanity/image-url";
+
 
 export const config = {
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
@@ -10,6 +12,10 @@ export const config = {
 
 export const sanityClient = createClient(config);
 
+/**
+ * urlFor — builds a Sanity image URL from a source reference.
+ * Uses named export (default was deprecated in @sanity/image-url v2).
+ */
 export const urlFor = (source: Image | undefined) => {
   return createImageUrlBuilder(config).image(source as Image);
 };

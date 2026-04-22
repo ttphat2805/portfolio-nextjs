@@ -1,119 +1,86 @@
-import { useCallback, useMemo } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
-import type { Container, Engine } from "tsparticles-engine";
-import { urlFor } from "../sanity";
+'use client';
+
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useMemo } from 'react';
+import { urlFor } from '../sanity';
+
 type Props = {
   skills: Skills[];
 };
+
+/**
+ * Floating skill icons — replaces tsparticles.
+ *
+ * Why framer-motion instead of tsparticles?
+ * - tsparticles causes unavoidable "jumps": outModes:'out' teleports, outModes:'bounce'
+ *   causes instant velocity reversal, repulse causes sudden force spikes.
+ * - framer-motion with easeInOut + repeatType:'reverse' is mathematically guaranteed
+ *   to never jump — it's a continuous smooth curve from start → end → start.
+ */
 const ParticlesCanvas = ({ skills }: Props) => {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    await loadFull(engine);
-  }, []);
-
-  const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {},
-    []
-  );
-
-  const imageCanvas = useMemo(() => {
-    return skills.map((skill: Skills) => ({
-      src: urlFor(skill.image).width(60).height(60).url(),
-      width: 60,
-      height: 60,
+  // Deterministic grid-like spread using golden angle distribution
+  // Avoids Math.random() (SSR mismatch) while spreading icons evenly
+  const positions = useMemo(() => {
+    const goldenAngle = 137.508; // degrees — fills space without clustering
+    return skills.map((_, i) => ({
+      // Spread across 10–90% of width/height so icons don't hug edges
+      left: 10 + ((i * goldenAngle) % 80),
+      top: 10 + ((i * 97.3) % 78),
     }));
   }, [skills]);
+
+  if (!skills.length) return null;
+
   return (
-    <Particles
-      id="tsparticles"
-      className="w-full h-full absolute"
-      init={particlesInit}
-      loaded={particlesLoaded}
-      options={{
-        fpsLimit: 120,
-        style: {
-          position: "absolute",
-        },
-        interactivity: {
-          events: {
-            onHover: {
-              enable: true,
-              mode: "repulse",
-            },
-            resize: true,
-          },
-          modes: {
-            repulse: {
-              distance: 100,
-              duration: 1,
-            },
-          },
-        },
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none"
+      aria-hidden="true"
+    >
+      {skills.map((skill, i) => {
+        // Each icon gets a unique float distance and duration
+        // so they don't all sync up and move as one block
+        const floatX = (i % 2 === 0 ? 1 : -1) * (20 + (i % 4) * 8); // ±20–44px
+        const floatY = (i % 3 === 0 ? 1 : -1) * (25 + (i % 5) * 8); // ±25–57px
+        const duration = 3 + (i % 5) * 0.8; // 3s – 6s (was 6–15s)
+        const delay = i * 0.2;
 
-        particles: {
-          collisions: {
-            enable: true,
-          },
-          rotate: {
-            value: 360,
-            random: true,
-            anim: {
-              enable: true,
-              speed: 2,
-            },
-          },
-          line_linked: {
-            enable: false,
-            distance: 500,
-            color: "#ffffff",
-            opacity: 0.4,
-            width: 2,
-          },
-          move: {
-            enable: true,
-            outModes: {
-              default: "bounce",
-            },
-            random: true,
-            speed: 4,
-            straight: false,
-            out_mode: "out",
-            bounce: false,
-            attract: {
-              enable: false,
-              rotateX: 6234,
-              rotateY: 6155,
-            },
-          },
-          number: {
-            density: {
-              enable: true,
-              area: 10000, // was 10000
-            },
-            value: 100, // was 100
-          },
-
-          opacity: { value: { min: 0.5, max: 0.8 } },
-
-          shape: {
-            type: "image",
-            image: imageCanvas,
-          },
-
-          size: {
-            value: 30,
-            random: false,
-            anim: {
-              enable: true,
-              speed: 10,
-              size_min: 20,
-              sync: false,
-            },
-          },
-        },
-        detectRetina: false,
-      }}
-    />
+        return (
+          <motion.div
+            key={skill._id ?? i}
+            className="absolute"
+            style={{
+              left: `${positions[i].left}%`,
+              top: `${positions[i].top}%`,
+            }}
+            animate={{
+              x: [0, floatX, 0],
+              y: [0, floatY, 0],
+            }}
+            transition={{
+              duration,
+              delay,
+              repeat: Infinity,
+              repeatType: 'reverse', // rewinds the same path — guaranteed no jump
+              ease: 'easeInOut',     // gradual accel/decel — smooth as breathing
+            }}
+          >
+            <div className="relative w-10 h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+              {skill.image && (
+                <Image
+                  src={urlFor(skill.image).width(40).height(40).url()}
+                  alt={skill.title ?? ''}
+                  fill
+                  className="object-contain drop-shadow-md"
+                  loading="lazy"
+                  sizes="40px"
+                />
+              )}
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
+'use client';
+
 /* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
 import emailjs from "@emailjs/browser";
 import { motion, AnimatePresence } from "framer-motion";
 import { memo, useEffect, useRef, useState } from "react";
@@ -30,8 +31,8 @@ const Contact = ({ theme }: Props) => {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
-  const form = useRef<any | HTMLFormElement>("");
-  const checkMarkRef = useRef<any>();
+  const form = useRef<HTMLFormElement>(null);
+  const checkMarkRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (checkMark) {
@@ -57,7 +58,7 @@ const Contact = ({ theme }: Props) => {
         .sendForm(
           EMAILJS.SERVICE_ID!,
           EMAILJS.TEMPLATE_ID!,
-          form.current,
+          form.current!,
           EMAILJS.PUBLIC_KEY
         )
         .then(
@@ -109,7 +110,10 @@ const Contact = ({ theme }: Props) => {
   };
 
   const getInputIcon = (fieldName: string) => {
-    const iconClass = theme ? "text-gray-500" : "text-gray-400";
+    // Use primary accent color so icons are clearly visible on both dark/light
+    const iconClass = theme
+      ? "text-indigo-500 text-xl flex-shrink-0"
+      : "text-indigo-400 text-xl flex-shrink-0";
     switch (fieldName) {
       case "name":
         return <FiUser className={iconClass} />;
@@ -180,7 +184,7 @@ const Contact = ({ theme }: Props) => {
                 transition-all duration-300 hover:scale-[1.01]
               `}
             >
-              <IoMdInformationCircle className="text-2xl mt-0.5 flex-shrink-0" />
+              <IoMdInformationCircle className="text-2xl mt-0.5 flex-shrink-0 text-blue-400" />
               <div>
                 <h4 className="font-semibold text-lg mb-1">Let's Connect!</h4>
                 <p className="text-sm opacity-90">
@@ -201,7 +205,7 @@ const Contact = ({ theme }: Props) => {
                   Your Name *
                 </label>
                 <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                     {getInputIcon("name")}
                   </div>
                   <input
@@ -251,7 +255,7 @@ const Contact = ({ theme }: Props) => {
                   Your Email *
                 </label>
                 <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 pointer-events-none">
                     {getInputIcon("email")}
                   </div>
                   <input
@@ -355,7 +359,7 @@ const Contact = ({ theme }: Props) => {
                 Your Message *
               </label>
               <div className="relative">
-                <div className="absolute left-3 top-3">
+                <div className="absolute left-3 top-3 z-10 pointer-events-none">
                   {getInputIcon("message")}
                 </div>
                 <textarea

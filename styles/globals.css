@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+/* 🚀 REMOVED: CSS @import Google Fonts — render-blocking, adds 300-500ms FCP delay
+   Fonts now loaded via next/font in _app.tsx (self-hosted, non-blocking, preloaded)
+   @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+   @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+*/
+
+@layer base {
+  :root {
+    --font-inter: "Inter", sans-serif;
+    --font-pacifico: "Pacifico", cursive;
+  }
+}
 
 @layer components {
   .tech-icon {
@@ -14,37 +24,64 @@
   }
 }
 
+/* ==================== BASE STYLES ==================== */
+
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--font-inter, "Inter", "Roboto", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* width */
+/* ==================== SCROLLBAR ==================== */
+
+/* Native scrollbar (fallback when Locomotive Scroll is not active) */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
-/* Track */
-.c-scrollbar_thumb {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
   background-image: linear-gradient(45deg, #f7ac0a93 0%, #85ffbe48 100%);
   border-radius: 10px;
 }
 
+/* Locomotive scroll custom thumb */
+.c-scrollbar_thumb {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+  background-image: linear-gradient(45deg, #f7ac0a93 0%, #85ffbe48 100%);
+}
+
+/* ==================== UTILITIES ==================== */
 
 .shape-fill-white {
   fill: #ffff;
 }
+
 .bg-gradient {
   background: #6366f1;
   background: -webkit-linear-gradient(to right, #6366f1, #1e293b);
   background: linear-gradient(to right, #6366f1, #1e293b);
 }
 
+.clip-home {
+  clip-path: polygon(0 0, 100% 0, 100% 83%, 50% 100%, 0 83%);
+}
+
+/* Focus visible styles for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ==================== ANIMATIONS ==================== */
 
 .checkmark.draw:after {
   visibility: visible;
@@ -53,10 +90,11 @@ body {
   animation-name: checkmark;
   transform: scaleX(-1) rotate(135deg);
 }
+
 .checkmark:after {
   opacity: 1;
   height: 1.75em;
-  width: .75em;
+  width: 0.75em;
   transform-origin: left top;
   border-right: 3px solid #0aee0a;
   border-top: 3px solid #01ff01;
@@ -65,11 +103,6 @@ body {
   top: 50%;
   position: absolute;
 }
-.clip-home{
-  clip-path: polygon(0 0, 100% 0, 100% 83%, 50% 100%, 0 83%);
-}
-
-
 
 @keyframes checkmark {
   0% {
@@ -79,19 +112,61 @@ body {
   }
   20% {
     height: 0;
-    width: .75em;
+    width: 0.75em;
     opacity: 1;
   }
   40% {
     height: 1.75em;
-    width: .75em;
+    width: 0.75em;
     opacity: 1;
   }
   100% {
     height: 1.75em;
-    width: .75em;
+    width: 0.75em;
     opacity: 1;
   }
 }
 
+/* ==================== ACCESSIBILITY ==================== */
 
+/* 🚀 Respect user's OS "Reduce Motion" preference
+   Users with vestibular disorders can be harmed by heavy animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable Locomotive Scroll smooth scrolling for reduced-motion users */
+  [data-scroll-container] {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen reader only utility (used for skip navigation) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.focus\:not-sr-only:focus {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: revert;
+  margin: revert;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}

@@ -1,8 +1,10 @@
-type Props = {};
-const Loader = (props: Props) => {
+'use client';
+
+const Loader = () => {
   return (
-    <div>
-      <span className="w-[30px] h-[30px] rounded-full inline-block border-3 border-[#5cb85c] border-t-2 border-t-white border-r-3 border-r-transparent animate-spin"></span>
+    <div role="status" aria-label="Sending...">
+      <span className="w-[30px] h-[30px] rounded-full inline-block border-2 border-[#5cb85c] border-t-white animate-spin" />
+      <span className="sr-only">Loading...</span>
     </div>
   );
 };
