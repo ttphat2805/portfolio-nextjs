@@ -65,13 +65,13 @@ const ParticlesCanvas = ({ skills }: Props) => {
               ease: 'easeInOut',     // gradual accel/decel — smooth as breathing
             }}
           >
-            <div className="relative w-10 h-10 opacity-70 hover:opacity-100 transition-opacity duration-300">
+            <div className="relative w-10 h-10 opacity-100 transition-opacity duration-300">
               {skill.image && (
                 <Image
-                  src={urlFor(skill.image).width(40).height(40).url()}
+                  src={urlFor(skill.image).width(80).height(80).url()}
                   alt={skill.title ?? ''}
                   fill
-                  className="object-contain drop-shadow-md"
+                  className="object-contain"
                   loading="lazy"
                   sizes="40px"
                 />

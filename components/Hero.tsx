@@ -39,7 +39,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
       >
       {pageInfo.avatarHero && (
         <Image
-          src={urlFor(pageInfo.avatarHero).width(128).height(128).url()}
+          src={urlFor(pageInfo.avatarHero).width(256).height(256).url()}
           alt={`${pageInfo.name ?? 'Phat Tran'} - Frontend Developer profile photo`}
           fill
           className="object-cover rounded-full"
@@ -70,10 +70,10 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
           <Link
             href="/CV_TranTanPhat_FrontendDev.pdf"
             download
-            aria-label="Download CV as PDF"
+            aria-label="Download Resume as PDF"
             className="inline-flex items-center gap-2 bg-transparent font-medium px-5 py-2.5 rounded-md shadow-lg border border-primary text-primary hover:brightness-105 hover:bg-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
           >
-            Download CV <TbDownload className="text-xl" aria-hidden="true" />
+            Download Resume <TbDownload className="text-xl" aria-hidden="true" />
           </Link>
         </motion.div>
       </div>

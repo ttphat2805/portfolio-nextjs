@@ -41,7 +41,7 @@ const About = ({ pageInfo }: Props) => {
           >
           {pageInfo.backgroundAvatar && (
             <Image
-              src={urlFor(pageInfo.backgroundAvatar).width(450).height(450).url()}
+              src={urlFor(pageInfo.backgroundAvatar).width(550).height(550).url()}
               alt={`${pageInfo.name ?? 'Phat Tran'} profile photo`}
               fill
               className="object-cover"
