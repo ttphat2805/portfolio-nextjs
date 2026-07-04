@@ -71,6 +71,9 @@ export default function App({ Component, pageProps }: AppProps) {
         content="Frontend Developer portfolio showcasing React, Next.js, and TypeScript projects."
       />
       <meta property="og:image" content={`${SITE_URL}/preview.png`} />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:width" content="846" />
+      <meta property="og:image:height" content="737" />
       <meta property="og:image:alt" content="Preview of Tran Tan Phat's portfolio website" />
       <meta property="og:url" content={SITE_URL} />
       <meta property="og:site_name" content="Tran Tan Phat Portfolio" />
