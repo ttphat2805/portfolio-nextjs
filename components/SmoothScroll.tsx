@@ -1,6 +1,5 @@
 'use client';
 
-// ✅ @studio-freight/lenis has been renamed to 'lenis'
 import Lenis from 'lenis';
 import { useEffect } from 'react';
 
@@ -8,21 +7,18 @@ type Props = {
   children: React.ReactNode;
 };
 
-/**
- * SmoothScroll — replaces react-locomotive-scroll (unmaintained)
- * Uses @studio-freight/lenis, the modern successor by the same authors.
- *
- * Note: 'use client' is for future App Router compatibility.
- * In Pages Router this component is already client-side by default.
- */
+// Smooth-scroll wrapper — falls back to native scrolling for prefers-reduced-motion
 export default function SmoothScroll({ children }: Props) {
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
+      anchors: { offset: -64 }, // room for the sticky header
     });
 
     let rafId: number;

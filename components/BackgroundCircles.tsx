@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 const BackgroundCircles = () => {
   return (
-    <motion.div
+    <m.div
       className="relative flex justify-center items-center"
       aria-hidden="true"
       initial={{ opacity: 0 }}
@@ -21,7 +20,7 @@ const BackgroundCircles = () => {
       <div className="absolute border border-gray-300 dark:border-white/20 rounded-full h-[500px] w-[500px] mt-60 animate-pulse" />
       <div className="absolute border border-gray-300 dark:border-white/20 rounded-full h-[620px] w-[620px] mt-60 animate-pulse" />
       <div className="absolute border border-gray-300 dark:border-white/20 rounded-full h-[800px] w-[800px] mt-60 animate-pulse" />
-    </motion.div>
+    </m.div>
   );
 };
 

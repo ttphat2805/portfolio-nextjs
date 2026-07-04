@@ -1,14 +1,15 @@
 'use client';
 
 /* eslint-disable react/no-unescaped-entities */
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, type ComponentType } from 'react';
 import { TbDownload } from 'react-icons/tb';
+import { HiOutlineChevronDown, HiOutlineArrowRight } from 'react-icons/hi';
 import { Cursor, useTypewriter } from 'react-simple-typewriter';
 import { urlFor } from '../sanity';
-import BackgroundCircles from './BackgroundCircles';
+import { fadeInUp, staggerContainer } from '../shared/motionVariants';
 
 type Props = {
   pageInfo: PageInfo;
@@ -25,58 +26,125 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
   });
 
   return (
-    <div className="h-screen clip-home bg-light dark:bg-dark relative flex flex-col space-y-8 items-center justify-center text-center">
+    <div className="h-screen clip-home bg-light dark:bg-dark relative flex flex-col items-center justify-center text-center overflow-hidden">
+      {/* Aurora backdrop — blurred gradient blobs, compositor-only drift */}
+      <div className="hero-aurora" aria-hidden="true">
+        <span className="hero-aurora__blob hero-aurora__blob--1" />
+        <span className="hero-aurora__blob hero-aurora__blob--2" />
+        <span className="hero-aurora__blob hero-aurora__blob--3" />
+      </div>
+
       {/* Decorative particle canvas — lazy loaded, hidden from a11y tree */}
       <ParticlesCanvas skills={skills} />
-      <BackgroundCircles />
 
-      {/* Avatar — LCP element, always eager-loaded with priority */}
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="relative rounded-full h-32 w-32 mx-auto overflow-hidden z-10 ring-2 ring-primary/30"
+      <m.div
+        variants={staggerContainer(0.12, 0.15)}
+        initial="hidden"
+        animate="visible"
+        className="relative z-20 flex flex-col items-center space-y-7 px-4"
       >
-      {pageInfo.avatarHero && (
-        <Image
-          src={urlFor(pageInfo.avatarHero).width(256).height(256).url()}
-          alt={`${pageInfo.name ?? 'Phat Tran'} - Frontend Developer profile photo`}
-          fill
-          className="object-cover rounded-full"
-          priority
-          sizes="128px"
-        />
-      )}
-      </motion.div>
+        {/* Availability badge */}
+        <m.div
+          variants={fadeInUp}
+          className="liquid-glass inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-sm font-medium
+            text-textlight dark:text-textdark"
+        >
+          <span className="relative flex h-2 w-2" aria-hidden="true">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+          </span>
+          Open to new opportunities
+        </m.div>
 
-      <div className="z-20">
-        <motion.h2
-          className="text-lg uppercase text-textlight dark:text-textdark tracking-[15px]"
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+        {/* Avatar — LCP element, eager-loaded; rotating gradient ring */}
+        <m.div variants={fadeInUp} className="relative h-36 w-36">
+          <span
+            className="absolute -inset-1 rounded-full animate-spin-slow blur-[3px] opacity-80
+              bg-[conic-gradient(from_0deg,#6366f1,#8b5cf6,#22d3ee,#6366f1)]"
+            aria-hidden="true"
+          />
+          <span
+            className="absolute -inset-[3px] rounded-full animate-spin-slow
+              bg-[conic-gradient(from_0deg,#6366f1,#8b5cf6,#22d3ee,#6366f1)]"
+            aria-hidden="true"
+          />
+          <div className="relative h-full w-full rounded-full overflow-hidden ring-4 ring-light dark:ring-dark">
+            {pageInfo.avatarHero && (
+              <Image
+                src={urlFor(pageInfo.avatarHero).width(288).height(288).url()}
+                alt={`${pageInfo.name ?? 'Phat Tran'} - Frontend Developer profile photo`}
+                fill
+                className="object-cover rounded-full"
+                priority
+                sizes="144px"
+              />
+            )}
+          </div>
+        </m.div>
+
+        {/* Role — <p>, not <h2>: keeps the h1 first in the heading outline */}
+        <m.p
+          variants={fadeInUp}
+          className="text-sm md:text-base uppercase text-textlight dark:text-textdark tracking-[6px] md:tracking-[12px]"
         >
           {pageInfo.role}
-        </motion.h2>
+        </m.p>
 
-        <h1 className="text-5xl lg:text-6xl font-semibold my-10">
+        <m.h1
+          variants={fadeInUp}
+          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
+        >
           <span>I'm</span>{' '}
-          <span className="mr-3 text-primary">{text}</span>
+          <span className="mr-3 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-cyan-400">
+            {text}
+          </span>
           <Cursor cursorColor="#6366f1" />
-        </h1>
+        </m.h1>
 
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-          {/* ✅ Next.js 13+ Link no longer needs a nested <a> tag */}
-          <Link
-            href="/CV_TranTanPhat_FrontendDev.pdf"
-            download
-            aria-label="Download Resume as PDF"
-            className="inline-flex items-center gap-2 bg-transparent font-medium px-5 py-2.5 rounded-md shadow-lg border border-primary text-primary hover:brightness-105 hover:bg-primary hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+        {/* CTA row */}
+        <m.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center gap-4 pt-2">
+          <m.a
+            href="#projects"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-flex items-center gap-2 font-semibold px-7 py-3 rounded-full text-white
+              bg-gradient-to-r from-primary to-secondary
+              shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
+              transition-shadow duration-300
+              focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            Download Resume <TbDownload className="text-xl" aria-hidden="true" />
-          </Link>
-        </motion.div>
-      </div>
+            View Projects <HiOutlineArrowRight aria-hidden="true" />
+          </m.a>
+
+          <m.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-block">
+            <Link
+              href="/CV_TranTanPhat_FrontendDev.pdf"
+              download
+              aria-label="Download Resume as PDF"
+              className="inline-flex items-center gap-2 font-medium px-7 py-3 rounded-full
+                border border-primary/40 text-primary
+                bg-white/60 dark:bg-white/5 backdrop-blur-md
+                hover:bg-primary hover:text-white hover:border-primary
+                transition-colors duration-300
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              Download Resume <TbDownload className="text-xl" aria-hidden="true" />
+            </Link>
+          </m.div>
+        </m.div>
+      </m.div>
+
+      {/* Scroll cue — pure CSS bounce */}
+      <m.a
+        href="#about"
+        aria-label="Scroll to the About section"
+        className="absolute bottom-[15%] z-20 text-textlight dark:text-textdark/80 hover:text-primary dark:hover:text-primary transition-colors"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4, duration: 0.8 }}
+      >
+        <HiOutlineChevronDown className="w-7 h-7 animate-bounce" aria-hidden="true" />
+      </m.a>
     </div>
   );
 };

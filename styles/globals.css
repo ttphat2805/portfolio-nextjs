@@ -2,11 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 🚀 REMOVED: CSS @import Google Fonts — render-blocking, adds 300-500ms FCP delay
-   Fonts now loaded via next/font in _app.tsx (self-hosted, non-blocking, preloaded)
-   @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
-   @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
-*/
+/* Fonts are loaded via next/font in _app.tsx, not @import here */
 
 @layer base {
   :root {
@@ -16,6 +12,107 @@
 }
 
 @layer components {
+  /* Liquid-glass surface: translucent layered fill + specular top highlight.
+     Border radius comes from the element (inherit-ed by the ::before sheen). */
+  .liquid-glass {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.22)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      0 4px 14px rgba(99, 102, 241, 0.12);
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  /* Specular sheen across the top half */
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0) 55%
+    );
+    pointer-events: none;
+  }
+
+  /* Opt-in hover lift for interactive glass elements (chips, buttons) */
+  .liquid-glass-lift:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.9),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.25),
+      0 8px 22px rgba(99, 102, 241, 0.28);
+  }
+
+  .dark .liquid-glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.04)
+    );
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.22),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.05),
+      0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  .dark .liquid-glass::before {
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0) 55%
+    );
+  }
+
+  .dark .liquid-glass-lift:hover {
+    border-color: rgba(139, 92, 246, 0.55);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.22),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.05),
+      0 8px 22px rgba(139, 92, 246, 0.35);
+  }
+
+  /* Animated gradient hairline (footer top edge) */
+  .gradient-hairline {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      #6366f1,
+      #8b5cf6,
+      #22d3ee,
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: hairline-slide 6s linear infinite;
+  }
+
+  @keyframes hairline-slide {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
   .tech-icon {
     @apply w-[50px] h-[50px] border object-contain dark:border-white/20 border-dark/20 rounded-full p-2 shadow-md hover:bg-dark hover:border-dark dark:hover:border-white dark:hover:bg-white transition duration-300;
   }
@@ -25,6 +122,10 @@
 }
 
 /* ==================== BASE STYLES ==================== */
+
+html {
+  scroll-padding-top: 72px; /* clears the sticky header on native anchor jumps */
+}
 
 body {
   font-family: var(--font-inter, "Inter", "Roboto", sans-serif);
@@ -39,7 +140,6 @@ body {
 
 /* ==================== SCROLLBAR ==================== */
 
-/* Native scrollbar (fallback when Locomotive Scroll is not active) */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -47,15 +147,8 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(45deg, #f7ac0a93 0%, #85ffbe48 100%);
+  background-image: linear-gradient(45deg, #6366f1 0%, #8b5cf6 100%);
   border-radius: 10px;
-}
-
-/* Locomotive scroll custom thumb */
-.c-scrollbar_thumb {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-  background-image: linear-gradient(45deg, #f7ac0a93 0%, #85ffbe48 100%);
 }
 
 /* ==================== UTILITIES ==================== */
@@ -81,7 +174,83 @@ body {
   border-radius: 4px;
 }
 
+/* ==================== HERO AURORA ==================== */
+
+/* Blurred gradient blobs behind the hero; only transform animates */
+.hero-aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-aurora__blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.3;
+  will-change: transform;
+  animation: aurora-drift 18s ease-in-out infinite alternate;
+}
+
+.dark .hero-aurora__blob {
+  opacity: 0.22;
+}
+
+.hero-aurora__blob--1 {
+  width: 480px;
+  height: 480px;
+  left: -8%;
+  top: -12%;
+  background: #6366f1;
+}
+
+.hero-aurora__blob--2 {
+  width: 420px;
+  height: 420px;
+  right: -6%;
+  top: 18%;
+  background: #8b5cf6;
+  animation-duration: 23s;
+  animation-delay: -7s;
+}
+
+.hero-aurora__blob--3 {
+  width: 380px;
+  height: 380px;
+  left: 28%;
+  bottom: -18%;
+  background: #22d3ee;
+  animation-duration: 27s;
+  animation-delay: -13s;
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(70px, -50px) scale(1.18);
+  }
+}
+
 /* ==================== ANIMATIONS ==================== */
+
+/* Floating hero icons; distance/duration set per element via --drift-x/--drift-y */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--drift-x, 20px), var(--drift-y, 20px));
+  }
+}
+
+.animate-drift {
+  animation: drift 6s ease-in-out infinite;
+  will-change: transform;
+}
 
 .checkmark.draw:after {
   visibility: visible;
@@ -129,8 +298,7 @@ body {
 
 /* ==================== ACCESSIBILITY ==================== */
 
-/* 🚀 Respect user's OS "Reduce Motion" preference
-   Users with vestibular disorders can be harmed by heavy animations */
+/* Respect the OS "reduce motion" preference */
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -138,11 +306,6 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  /* Disable Locomotive Scroll smooth scrolling for reduced-motion users */
-  [data-scroll-container] {
     scroll-behavior: auto !important;
   }
 }

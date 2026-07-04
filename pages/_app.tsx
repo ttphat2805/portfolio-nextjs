@@ -1,9 +1,8 @@
 'use client';
 
-import { domAnimation, LazyMotion } from 'framer-motion';
+import { domMax, LazyMotion, MotionConfig } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-// ✅ next/font replaces @next/font (merged in Next.js 13.2+)
 import { Inter, Pacifico } from 'next/font/google';
 import SmoothScroll from '../components/SmoothScroll';
 import '../styles/globals.css';
@@ -23,6 +22,18 @@ const pacifico = Pacifico({
   preload: false,
 });
 
+const SITE_URL = 'https://portfolio-ttp.vercel.app';
+
+// Structured data — helps Google show a rich "Person" result
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Tran Tan Phat',
+  jobTitle: 'Frontend Developer',
+  url: SITE_URL,
+  knowsAbout: ['React', 'Next.js', 'TypeScript', 'Frontend Development'],
+};
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={`${inter.variable} ${pacifico.variable}`}>
@@ -30,18 +41,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Tran Tan Phat - Frontend Developer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
-          name="title"
-          content="Tran Tan Phat - Frontend Developer Portfolio"
-        />
-        <meta
           name="description"
           content="Hi, I'm Phat – a frontend developer with passion for modern web. Specializing in React, Next.js, and TypeScript."
         />
-        <meta
-          name="keywords"
-          content="Frontend Developer, React, Next.js, TypeScript, Portfolio, Vietnam"
-        />
         <meta name="author" content="Tran Tan Phat" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={SITE_URL} />
 
         {/* Favicon */}
         <link rel="icon" href="/rel-images.png" type="image/png" />
@@ -49,31 +54,30 @@ export default function App({ Component, pageProps }: AppProps) {
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Tran Tan Phat - Portfolio" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content="Tran Tan Phat - Frontend Developer Portfolio" />
         <meta
           property="og:description"
-          content="Frontend Developer portfolio showcasing React, Next.js, and more."
+          content="Frontend Developer portfolio showcasing React, Next.js, and TypeScript projects."
         />
-        <meta
-          property="og:image"
-          content="https://portfolio-ttp.vercel.app/preview.png"
-        />
-        <meta property="og:url" content="https://portfolio-ttp.vercel.app" />
+        <meta property="og:image" content={`${SITE_URL}/preview.png`} />
+        <meta property="og:image:alt" content="Preview of Tran Tan Phat's portfolio website" />
+        <meta property="og:url" content={SITE_URL} />
         <meta property="og:site_name" content="Tran Tan Phat Portfolio" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Tran Tan Phat - Frontend Portfolio"
-        />
+        <meta name="twitter:title" content="Tran Tan Phat - Frontend Portfolio" />
         <meta
           name="twitter:description"
           content="Frontend Developer portfolio — React, Next.js, TypeScript"
         />
-        <meta
-          name="twitter:image"
-          content="https://portfolio-ttp.vercel.app/preview.png"
+        <meta name="twitter:image" content={`${SITE_URL}/preview.png`} />
+
+        {/* Structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </Head>
 
@@ -85,10 +89,12 @@ export default function App({ Component, pageProps }: AppProps) {
         Skip to main content
       </a>
 
-      {/* SmoothScroll wraps the whole app — replaces react-locomotive-scroll */}
       <SmoothScroll>
-        <LazyMotion features={domAnimation}>
-          <Component {...pageProps} />
+        {/* strict + domMax: only `m` components allowed, with layout-animation support */}
+        <LazyMotion features={domMax} strict>
+          <MotionConfig reducedMotion="user">
+            <Component {...pageProps} />
+          </MotionConfig>
         </LazyMotion>
       </SmoothScroll>
     </div>

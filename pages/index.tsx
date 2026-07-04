@@ -1,8 +1,8 @@
 'use client';
 
 import type { GetStaticProps } from 'next';
-import { motion } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { m, useMotionValue, useSpring } from 'framer-motion';
+import { useEffect } from 'react';
 import { groq } from 'next-sanity';
 import About from '../components/About';
 import Contact from '../components/Contact';
@@ -10,7 +10,9 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Projects from '../components/Projects';
+import ScrollProgress from '../components/ScrollProgress';
 import Skills from '../components/Skills';
+import useTheme from '../hooks/useTheme';
 import { sanityClient } from '../sanity';
 
 import ParticlesCanvas from '../components/ParticlesCanvas';
@@ -23,82 +25,64 @@ type Props = {
 };
 
 export default function Home({ pageInfo, skills, projects, socials }: Props) {
-  const [theme, setTheme] = useState<boolean>(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const { theme, toggleTheme } = useTheme();
 
-  // 🚀 Throttle mousemove via rAF — prevents 200+ re-renders/sec
-  const rafRef = useRef<number>(0);
-  const mouseMove = useCallback((e: MouseEvent) => {
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    });
-  }, []);
+  // Custom cursor via motion values — avoids a setState re-render per mousemove
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const springX = useSpring(cursorX, { stiffness: 600, damping: 40, mass: 0.4 });
+  const springY = useSpring(cursorY, { stiffness: 600, damping: 40, mass: 0.4 });
 
   useEffect(() => {
-    window.addEventListener('mousemove', mouseMove, { passive: true });
-    return () => {
-      window.removeEventListener('mousemove', mouseMove);
-      cancelAnimationFrame(rafRef.current);
+    const move = (e: MouseEvent) => {
+      cursorX.set(e.clientX - 16);
+      cursorY.set(e.clientY - 16);
     };
-  }, [mouseMove]);
-
-  // Dark mode — sync CSS class on <html>
-  useEffect(() => {
-    const el = document.documentElement;
-    if (theme) {
-      el.classList.remove('dark');
-    } else {
-      el.classList.add('dark');
-    }
-  }, [theme]);
+    window.addEventListener('mousemove', move, { passive: true });
+    return () => window.removeEventListener('mousemove', move);
+  }, [cursorX, cursorY]);
 
   return (
-    <div className="dark:bg-bgmain bg-white/80 dark:text-white overflow-x-hidden scroll-smooth">
+    <div className="dark:bg-bgmain bg-white/80 dark:text-white overflow-x-hidden">
+      <ScrollProgress />
+
       {/* Custom cursor — desktop only */}
-      <motion.div
-        className="w-8 h-8 border border-gray-400 dark:border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100] hidden md:block"
-        animate={{ x: mousePosition.x - 16, y: mousePosition.y - 16 }}
-        transition={{ duration: 0.07, type: 'tween' }}
+      <m.div
+        className="w-8 h-8 border border-gray-400 dark:border-white rounded-full fixed top-0 left-0 pointer-events-none z-[100] hidden md:block will-change-transform"
+        style={{ x: springX, y: springY }}
         aria-hidden="true"
       />
 
-      <main id="main-content">
-        <Header socials={socials} theme={theme} setTheme={setTheme} />
+      <Header socials={socials} theme={theme} toggleTheme={toggleTheme} />
 
-        <section id="hero" aria-label="Hero section">
+      <main id="main-content">
+        <section id="hero" aria-label="Introduction">
           <Hero pageInfo={pageInfo} skills={skills} ParticlesCanvas={ParticlesCanvas} />
         </section>
 
-        <section id="about" aria-label="About section">
+        <section id="about" aria-labelledby="about-heading">
           <About pageInfo={pageInfo} />
         </section>
 
-        <section id="skills" aria-label="Skills section">
+        <section id="skills" aria-labelledby="skills-heading">
           <Skills skills={skills} />
         </section>
 
-        <section id="projects" aria-label="Projects section">
+        <section id="projects" aria-labelledby="projects-heading">
           <Projects project={projects} />
         </section>
 
-        <section id="contact" aria-label="Contact section">
-          <Contact theme={theme} />
+        <section id="contact" aria-labelledby="contact-heading">
+          <Contact pageInfo={pageInfo} />
         </section>
-
-        <footer id="footer">
-          <Footer />
-        </footer>
       </main>
+
+      <Footer socials={socials} />
     </div>
   );
 }
 
-// =========================================================
-// GROQ queries (same as API routes, but run at build time
-// directly against Sanity — no HTTP round-trip, no server needed)
-// =========================================================
-
+// GROQ queries — same shape as the API routes, run at build time instead
 const pageInfoQuery = groq`*[_type=="pageInfo"][0] {
   ...,
   socials[]->
@@ -115,45 +99,36 @@ const skillsQuery = groq`*[_type=="skill"]`;
 
 const socialsQuery = groq`*[_type=="socials"]`;
 
-// =========================================================
-// getStaticProps + ISR
-// =========================================================
-// Before: getServerSideProps → 4 serial HTTP calls → 3–5s TTFB per visitor
-// After:  getStaticProps → 4 parallel Sanity queries at build time
-//         → pre-built HTML served from CDN → ~50ms TTFB
-// =========================================================
+const emptyPageInfo = (): PageInfo =>
+  ({
+    _id: '',
+    _createAt: '',
+    _rev: '',
+    _updatedAt: '',
+    _type: 'pageInfo',
+    address: '',
+    avatarHero: undefined as unknown as Image,
+    backgroundAvatar: undefined as unknown as Image,
+    email: '',
+    name: '',
+    phoneNumber: '',
+    role: '',
+    socials: [],
+    summary: [],
+    titleAbout: '',
+  }) as PageInfo;
+
+// ISR: builds statically, then regenerates in the background every 60s
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  // Skip Sanity fetch if projectId not configured (CI without env vars)
+  // No projectId means CI without env vars — skip the Sanity fetch
   if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
     return {
-      props: {
-        pageInfo: {
-          _id: '',
-          _createAt: '',
-          _rev: '',
-          _updatedAt: '',
-          _type: 'pageInfo',
-          address: '',
-          avatarHero: undefined as unknown as Image,
-          backgroundAvatar: undefined as unknown as Image,
-          email: '',
-          name: '',
-          phoneNumber: '',
-          role: '',
-          socials: [],
-          summary: [],
-          titleAbout: '',
-        } as PageInfo,
-        projects: [],
-        skills: [],
-        socials: [],
-      },
+      props: { pageInfo: emptyPageInfo(), projects: [], skills: [], socials: [] },
       revalidate: 60,
     };
   }
 
   try {
-    // ✅ All 4 queries in parallel — no serial waiting
     const [pageInfo, projects, skills, socials] = await Promise.all([
       sanityClient.fetch<PageInfo>(pageInfoQuery),
       sanityClient.fetch<Project[]>(projectsQuery),
@@ -168,28 +143,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
   } catch (error) {
     console.error('[getStaticProps] Sanity fetch failed:', error);
     return {
-      props: {
-        pageInfo: {
-          _id: '',
-          _createAt: '',
-          _rev: '',
-          _updatedAt: '',
-          _type: 'pageInfo',
-          address: '',
-          avatarHero: undefined as unknown as Image,
-          backgroundAvatar: undefined as unknown as Image,
-          email: '',
-          name: '',
-          phoneNumber: '',
-          role: '',
-          socials: [],
-          summary: [],
-          titleAbout: '',
-        } as PageInfo,
-        projects: [],
-        skills: [],
-        socials: [],
-      },
+      props: { pageInfo: emptyPageInfo(), projects: [], skills: [], socials: [] },
       revalidate: 30,
     };
   }

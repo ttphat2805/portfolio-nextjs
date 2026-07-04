@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // styled-components is used by the embedded Sanity Studio (/studio)
   compiler: {
     styledComponents: true,
   },

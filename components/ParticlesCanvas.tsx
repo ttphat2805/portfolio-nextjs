@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { urlFor } from '../sanity';
@@ -9,22 +8,12 @@ type Props = {
   skills: Skills[];
 };
 
-/**
- * Floating skill icons — replaces tsparticles.
- *
- * Why framer-motion instead of tsparticles?
- * - tsparticles causes unavoidable "jumps": outModes:'out' teleports, outModes:'bounce'
- *   causes instant velocity reversal, repulse causes sudden force spikes.
- * - framer-motion with easeInOut + repeatType:'reverse' is mathematically guaranteed
- *   to never jump — it's a continuous smooth curve from start → end → start.
- */
+// Floating skill icons, drifting via CSS keyframes instead of a JS animation loop
 const ParticlesCanvas = ({ skills }: Props) => {
-  // Deterministic grid-like spread using golden angle distribution
-  // Avoids Math.random() (SSR mismatch) while spreading icons evenly
+  // Golden-angle spread keeps icons deterministic (no SSR mismatch) and even
   const positions = useMemo(() => {
-    const goldenAngle = 137.508; // degrees — fills space without clustering
+    const goldenAngle = 137.508;
     return skills.map((_, i) => ({
-      // Spread across 10–90% of width/height so icons don't hug edges
       left: 10 + ((i * goldenAngle) % 80),
       top: 10 + ((i * 97.3) % 78),
     }));
@@ -38,38 +27,31 @@ const ParticlesCanvas = ({ skills }: Props) => {
       aria-hidden="true"
     >
       {skills.map((skill, i) => {
-        // Each icon gets a unique float distance and duration
-        // so they don't all sync up and move as one block
-        const floatX = (i % 2 === 0 ? 1 : -1) * (20 + (i % 4) * 8); // ±20–44px
-        const floatY = (i % 3 === 0 ? 1 : -1) * (25 + (i % 5) * 8); // ±25–57px
-        const duration = 3 + (i % 5) * 0.8; // 3s – 6s (was 6–15s)
-        const delay = i * 0.2;
+        // Unique distance/duration per icon so they don't move in lockstep
+        const driftX = (i % 2 === 0 ? 1 : -1) * (20 + (i % 4) * 8); // ±20–44px
+        const driftY = (i % 3 === 0 ? 1 : -1) * (25 + (i % 5) * 8); // ±25–57px
+        const duration = 6 + (i % 5) * 1.6; // 6s – 12.4s
 
         return (
-          <motion.div
+          <div
             key={skill._id ?? i}
-            className="absolute"
-            style={{
-              left: `${positions[i].left}%`,
-              top: `${positions[i].top}%`,
-            }}
-            animate={{
-              x: [0, floatX, 0],
-              y: [0, floatY, 0],
-            }}
-            transition={{
-              duration,
-              delay,
-              repeat: Infinity,
-              repeatType: 'reverse', // rewinds the same path — guaranteed no jump
-              ease: 'easeInOut',     // gradual accel/decel — smooth as breathing
-            }}
+            className="absolute animate-drift"
+            style={
+              {
+                left: `${positions[i].left}%`,
+                top: `${positions[i].top}%`,
+                '--drift-x': `${driftX}px`,
+                '--drift-y': `${driftY}px`,
+                animationDuration: `${duration}s`,
+                animationDelay: `${i * 0.2}s`,
+              } as React.CSSProperties
+            }
           >
-            <div className="relative w-10 h-10 opacity-100 transition-opacity duration-300">
+            <div className="relative w-10 h-10">
               {skill.image && (
                 <Image
-                  src={urlFor(skill.image).width(80).height(80).url()}
-                  alt={skill.title ?? ''}
+                  src={urlFor(skill.image).width(80).fit('max').url()}
+                  alt=""
                   fill
                   className="object-contain"
                   loading="lazy"
@@ -77,7 +59,7 @@ const ParticlesCanvas = ({ skills }: Props) => {
                 />
               )}
             </div>
-          </motion.div>
+          </div>
         );
       })}
     </div>
