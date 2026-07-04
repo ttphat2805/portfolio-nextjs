@@ -3,7 +3,6 @@
 import { m, useScroll, useTransform, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { memo, useRef } from 'react';
-import { AiOutlineGithub } from 'react-icons/ai';
 import { HiOutlineExternalLink } from 'react-icons/hi';
 import { urlFor } from '../sanity';
 import { formatDate } from '../shared/contants';
@@ -80,11 +79,17 @@ const Projects = ({ project }: Props) => {
               />
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                {/* Project image */}
-                <div
-                  className={`relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-gray-200/60 dark:ring-white/10 ${
-                    index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'
-                  }`}
+                {/* Project image — whole preview is clickable when a live link exists */}
+                <m.a
+                  href={item.linkBuild || undefined}
+                  target={item.linkBuild ? '_blank' : undefined}
+                  rel={item.linkBuild ? 'noopener noreferrer' : undefined}
+                  aria-label={item.linkBuild ? `Open ${item.title} live site` : undefined}
+                  whileHover={item.linkBuild ? { scale: 1.015 } : undefined}
+                  className={`relative overflow-hidden rounded-2xl shadow-lg ring-1 ring-gray-200/60 dark:ring-white/10 block
+                    ${item.linkBuild ? 'cursor-pointer' : 'pointer-events-none'}
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                    ${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}
                 >
                   <div className="aspect-video relative">
                     <Image
@@ -95,33 +100,29 @@ const Projects = ({ project }: Props) => {
                       loading="lazy"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      aria-hidden="true"
-                    />
 
-                    {/* Quick action overlay */}
                     {item.linkBuild && (
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all duration-300">
-                        <m.a
-                          href={item.linkBuild}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                          aria-label={`View ${item.title} source code on GitHub`}
-                        >
-                          <AiOutlineGithub className="w-6 h-6 text-gray-800" aria-hidden="true" />
-                        </m.a>
-                      </div>
+                      <>
+                        <div
+                          className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          aria-hidden="true"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                          <span
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white
+                              bg-gradient-to-r from-primary to-secondary shadow-lg"
+                          >
+                            View Live Site <HiOutlineExternalLink aria-hidden="true" />
+                          </span>
+                        </div>
+                      </>
                     )}
                   </div>
-                </div>
+                </m.a>
 
-                {/* Project info */}
-                <div className={`space-y-5 text-center lg:text-left ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <div className="flex items-center justify-center lg:justify-start gap-4" aria-hidden="true">
+                {/* Project info — left-aligned throughout; centering multi-line body text hurts readability */}
+                <div className={`space-y-5 text-left ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className="flex items-center justify-start gap-4" aria-hidden="true">
                     <span className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary/40 to-secondary/20">
                       {String(index + 1).padStart(2, '0')}
                     </span>
@@ -132,7 +133,7 @@ const Projects = ({ project }: Props) => {
                     {item.title}
                   </h3>
 
-                  <div className="flex items-center justify-center lg:justify-start gap-2 text-sm text-textlight/80 dark:text-textdark/70">
+                  <div className="flex items-center justify-start gap-2 text-sm text-textlight/80 dark:text-textdark/70">
                     <span className="w-2 h-2 bg-primary rounded-full" aria-hidden="true" />
                     <time>
                       {`${formatDate(item.fromDate)} – ${
@@ -156,7 +157,7 @@ const Projects = ({ project }: Props) => {
 
                   {/* Tech chips — names visible (tooltips were unusable on touch) */}
                   <ul
-                    className="flex flex-wrap justify-center lg:justify-start gap-2 list-none p-0 pt-1"
+                    className="flex flex-wrap justify-start gap-2 list-none p-0 pt-1"
                     aria-label="Technologies used"
                   >
                     {item.technologies.map((tech: Technology, techIdx: number) => (
@@ -182,16 +183,20 @@ const Projects = ({ project }: Props) => {
 
                   {/* Live link */}
                   {item.linkBuild && (
-                    <a
+                    <m.a
                       href={item.linkBuild}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 pt-2 text-sm font-semibold text-primary
-                        hover:underline underline-offset-4
-                        focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
+                      whileHover={{ scale: 1.04 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white
+                        bg-gradient-to-r from-primary to-secondary
+                        shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/35
+                        transition-shadow duration-300
+                        focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                     >
                       View project <HiOutlineExternalLink aria-hidden="true" />
-                    </a>
+                    </m.a>
                   )}
                 </div>
               </div>

@@ -19,8 +19,13 @@ type Props = {
 };
 
 const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
+  const typewriterWords =
+    pageInfo.heroTypewriterWords?.length
+      ? pageInfo.heroTypewriterWords
+      : [pageInfo.name ?? 'Phat Tran', 'Front-end Developer', 'ReactJS Developer'];
+
   const [text] = useTypewriter({
-    words: [pageInfo.name ?? 'Phat Tran', 'Front-end Developer', 'ReactJS Developer'],
+    words: typewriterWords,
     loop: true,
     delaySpeed: 2000,
   });
@@ -53,7 +58,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
           </span>
-          Open to new opportunities
+          {pageInfo.heroBadgeText || 'Open to new opportunities'}
         </m.div>
 
         {/* Avatar — LCP element, eager-loaded; rotating gradient ring */}
@@ -118,7 +123,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
 
           <m.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-block">
             <Link
-              href="/CV_TranTanPhat_FrontendDev.pdf"
+              href={pageInfo.heroResumeUrl || '/CV_TranTanPhat_FrontendDev.pdf'}
               download
               aria-label="Download Resume as PDF"
               className="inline-flex items-center gap-2 font-medium px-7 py-3 rounded-full

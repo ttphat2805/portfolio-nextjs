@@ -64,7 +64,14 @@ interface PageInfo extends SanityBody {
   name: string;
   phoneNumber: string;
   role: string;
+  /** Rotating typewriter words shown in the hero heading */
+  heroTypewriterWords: string[];
+  /** Availability badge text shown in the hero (e.g. "Open to new opportunities") */
+  heroBadgeText: string;
+  /** Path or URL to the downloadable resume PDF */
+  heroResumeUrl: string;
   socials: Socials[];
   summary: SanityBlock[];
   titleAbout: string;
 }
+

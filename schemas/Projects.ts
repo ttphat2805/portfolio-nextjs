@@ -37,7 +37,8 @@ export default defineType({
     },
     {
       name: "linkBuild",
-      title: "Link Build",
+      title: "Live Demo Link",
+      description: "URL to the deployed / live version of the project",
       type: "url",
     },
     {

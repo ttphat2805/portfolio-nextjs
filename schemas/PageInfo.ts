@@ -21,6 +21,29 @@ export default defineType({
     {
       name: "role",
       title: "Role",
+      description: "Displayed above the name in the hero (e.g. FRONTEND DEVELOPER)",
+      type: "string",
+    },
+    {
+      name: "heroTypewriterWords",
+      title: "Hero Typewriter Words",
+      description:
+        "Rotating words shown in the hero heading. The first item is usually your name.",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "heroBadgeText",
+      title: "Hero Badge Text",
+      description:
+        "Availability badge shown at the top of the hero (e.g. Open to new opportunities)",
+      type: "string",
+    },
+    {
+      name: "heroResumeUrl",
+      title: "Hero Resume URL",
+      description:
+        "Path or URL to the downloadable resume/CV PDF (e.g. /CV_TranTanPhat_FrontendDev.pdf)",
       type: "string",
     },
     {
