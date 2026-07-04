@@ -3,6 +3,7 @@
 import { domMax, LazyMotion, MotionConfig } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { Inter, Pacifico } from 'next/font/google';
 import SmoothScroll from '../components/SmoothScroll';
 import '../styles/globals.css';
@@ -35,7 +36,11 @@ const personJsonLd = {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
+  const router = useRouter();
+  // Sanity Studio manages its own scroll — skip Lenis on the studio route
+  const isStudio = router.pathname.startsWith('/studio');
+
+  const content = (
     <div className={`${inter.variable} ${pacifico.variable}`}>
       <Head>
         <title>Tran Tan Phat - Frontend Developer</title>
@@ -89,14 +94,17 @@ export default function App({ Component, pageProps }: AppProps) {
         Skip to main content
       </a>
 
-      <SmoothScroll>
-        {/* strict + domMax: only `m` components allowed, with layout-animation support */}
-        <LazyMotion features={domMax} strict>
-          <MotionConfig reducedMotion="user">
-            <Component {...pageProps} />
-          </MotionConfig>
-        </LazyMotion>
-      </SmoothScroll>
+      {/* strict + domMax: only `m` components allowed, with layout-animation support */}
+      <LazyMotion features={domMax} strict>
+        <MotionConfig reducedMotion="user">
+          <Component {...pageProps} />
+        </MotionConfig>
+      </LazyMotion>
     </div>
   );
+
+  // Sanity Studio handles its own scrolling — bypass Lenis for the studio route
+  if (isStudio) return content;
+
+  return <SmoothScroll>{content}</SmoothScroll>;
 }
