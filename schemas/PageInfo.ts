@@ -41,10 +41,13 @@ export default defineType({
     },
     {
       name: "heroResumeUrl",
-      title: "Hero Resume URL",
+      title: "Hero Resume File",
       description:
-        "Path or URL to the downloadable resume/CV PDF (e.g. /CV_TranTanPhat_FrontendDev.pdf)",
-      type: "string",
+        "Upload the downloadable resume/CV PDF. If left empty, the site falls back to the default file bundled in the codebase.",
+      type: "file",
+      options: {
+        accept: ".pdf",
+      },
     },
     {
       name: "backgroundAvatar",

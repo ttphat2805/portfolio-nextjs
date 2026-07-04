@@ -85,7 +85,8 @@ export default function Home({ pageInfo, skills, projects, socials }: Props) {
 // GROQ queries — same shape as the API routes, run at build time instead
 const pageInfoQuery = groq`*[_type=="pageInfo"][0] {
   ...,
-  socials[]->
+  socials[]->,
+  heroResumeUrl { asset-> { url } }
 }`;
 
 const projectsQuery = groq`
@@ -115,7 +116,6 @@ const emptyPageInfo = (): PageInfo =>
     role: '',
     heroTypewriterWords: [],
     heroBadgeText: '',
-    heroResumeUrl: '',
     socials: [],
     summary: [],
     titleAbout: '',

@@ -123,7 +123,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
 
           <m.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-block">
             <Link
-              href={pageInfo.heroResumeUrl || '/CV_TranTanPhat_FrontendDev.pdf'}
+              href={pageInfo.heroResumeUrl?.asset?.url || '/CV_TranTanPhat_FrontendDev.pdf'}
               download
               aria-label="Download Resume as PDF"
               className="inline-flex items-center gap-2 font-medium px-7 py-3 rounded-full

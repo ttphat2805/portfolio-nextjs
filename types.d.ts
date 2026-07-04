@@ -23,6 +23,16 @@ interface Image {
   };
 }
 
+// GROQ query dereferences asset-> so `url` is available directly
+interface SanityFile {
+  _type: "file";
+  asset?: {
+    _ref: string;
+    _type: "reference";
+    url?: string;
+  };
+}
+
 interface Skills extends SanityBody {
   _type: "skill";
   direction: boolean;
@@ -68,8 +78,8 @@ interface PageInfo extends SanityBody {
   heroTypewriterWords: string[];
   /** Availability badge text shown in the hero (e.g. "Open to new opportunities") */
   heroBadgeText: string;
-  /** Path or URL to the downloadable resume PDF */
-  heroResumeUrl: string;
+  /** Uploaded resume/CV PDF — falls back to a bundled file when not set in the CMS */
+  heroResumeUrl?: SanityFile;
   socials: Socials[];
   summary: SanityBlock[];
   titleAbout: string;

@@ -9,7 +9,8 @@ type Data = {
 
 const query = groq`*[_type=="pageInfo"] {
   ...,
-  socials[]->
+  socials[]->,
+  heroResumeUrl { asset-> { url } }
 }`;
 
 export default async function handler(
