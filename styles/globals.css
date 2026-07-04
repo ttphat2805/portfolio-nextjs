@@ -8,6 +8,11 @@
   :root {
     --font-inter: "Inter", sans-serif;
     --font-pacifico: "Pacifico", cursive;
+    --hero-cursor-color: #4338ca;
+  }
+
+  .dark {
+    --hero-cursor-color: #22d3ee;
   }
 }
 

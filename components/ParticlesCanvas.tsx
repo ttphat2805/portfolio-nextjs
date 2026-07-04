@@ -8,6 +8,9 @@ type Props = {
   skills: Skills[];
 };
 
+// Cap how many float on mobile — a dozen+ icons crowds a small hero screen
+const MOBILE_ICON_LIMIT = 8;
+
 // Floating skill icons, drifting via CSS keyframes instead of a JS animation loop
 const ParticlesCanvas = ({ skills }: Props) => {
   // Golden-angle spread keeps icons deterministic (no SSR mismatch) and even
@@ -35,7 +38,7 @@ const ParticlesCanvas = ({ skills }: Props) => {
         return (
           <div
             key={skill._id ?? i}
-            className="absolute animate-drift"
+            className={`absolute animate-drift ${i >= MOBILE_ICON_LIMIT ? 'hidden sm:block' : ''}`}
             style={
               {
                 left: `${positions[i].left}%`,

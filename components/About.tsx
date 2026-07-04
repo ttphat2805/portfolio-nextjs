@@ -54,7 +54,7 @@ const About = ({ pageInfo }: Props) => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
-          className="relative rounded-3xl p-8 md:p-10 text-center md:text-left
+          className="relative rounded-3xl p-8 md:p-10 text-left
             bg-white/60 dark:bg-white/5 backdrop-blur-md
             border border-gray-200/70 dark:border-white/10 shadow-xl shadow-primary/5"
         >
@@ -87,7 +87,7 @@ const About = ({ pageInfo }: Props) => {
           {/* Accent underline */}
           <m.div
             variants={fadeInUp}
-            className="mt-6 h-1 w-24 mx-auto md:mx-0 rounded-full bg-gradient-to-r from-primary to-secondary"
+            className="mt-6 h-1 w-24 rounded-full bg-gradient-to-r from-primary to-secondary"
             aria-hidden="true"
           />
         </m.div>

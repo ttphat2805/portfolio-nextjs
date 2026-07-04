@@ -46,23 +46,23 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
         variants={staggerContainer(0.12, 0.15)}
         initial="hidden"
         animate="visible"
-        className="relative z-20 flex flex-col items-center space-y-7 px-4"
+        className="relative z-20 flex flex-col items-center space-y-5 sm:space-y-7 px-4"
       >
         {/* Availability badge */}
         <m.div
           variants={fadeInUp}
-          className="liquid-glass inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-sm font-medium
+          className="liquid-glass inline-flex items-center gap-2 sm:gap-2.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium
             text-textlight dark:text-textdark"
         >
-          <span className="relative flex h-2 w-2" aria-hidden="true">
+          <span className="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2" aria-hidden="true">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+            <span className="relative inline-flex h-full w-full rounded-full bg-green-500" />
           </span>
           {pageInfo.heroBadgeText || 'Open to new opportunities'}
         </m.div>
 
         {/* Avatar — LCP element, eager-loaded; rotating gradient ring */}
-        <m.div variants={fadeInUp} className="relative h-36 w-36">
+        <m.div variants={fadeInUp} className="relative h-24 w-24 sm:h-36 sm:w-36">
           <span
             className="absolute -inset-1 rounded-full animate-spin-slow blur-[3px] opacity-80
               bg-[conic-gradient(from_0deg,#6366f1,#8b5cf6,#22d3ee,#6366f1)]"
@@ -73,7 +73,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
               bg-[conic-gradient(from_0deg,#6366f1,#8b5cf6,#22d3ee,#6366f1)]"
             aria-hidden="true"
           />
-          <div className="relative h-full w-full rounded-full overflow-hidden ring-4 ring-light dark:ring-dark">
+          <div className="relative h-full w-full rounded-full overflow-hidden ring-2 sm:ring-4 ring-light dark:ring-dark">
             {pageInfo.avatarHero && (
               <Image
                 src={urlFor(pageInfo.avatarHero).width(288).height(288).url()}
@@ -81,38 +81,42 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
                 fill
                 className="object-cover rounded-full"
                 priority
-                sizes="144px"
+                sizes="(max-width: 639px) 96px, 144px"
               />
             )}
           </div>
         </m.div>
 
-        {/* Role — <p>, not <h2>: keeps the h1 first in the heading outline */}
+        {/* Role — hidden on mobile to keep the hero compact; <p> not <h2> keeps h1 first in the heading outline */}
         <m.p
           variants={fadeInUp}
-          className="text-sm md:text-base uppercase text-textlight dark:text-textdark tracking-[6px] md:tracking-[12px]"
+          className="hidden sm:block text-sm md:text-base uppercase text-textlight dark:text-textdark tracking-[6px] md:tracking-[12px]"
         >
           {pageInfo.role}
         </m.p>
 
         <m.h1
           variants={fadeInUp}
-          className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
+          className="text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight"
         >
           <span>I'm</span>{' '}
-          <span className="mr-3 text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-cyan-400">
+          <span
+            className="mr-3 text-transparent bg-clip-text bg-gradient-to-r
+              from-blue-600 via-indigo-600 to-cyan-400
+              dark:from-blue-400 dark:via-indigo-400 dark:to-cyan-300"
+          >
             {text}
           </span>
-          <Cursor cursorColor="#6366f1" />
+          <Cursor cursorColor="var(--hero-cursor-color)" />
         </m.h1>
 
-        {/* CTA row */}
+        {/* CTA row — "View Projects" hidden on mobile to keep the hero to one primary action */}
         <m.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center gap-4 pt-2">
           <m.a
             href="#projects"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="inline-flex items-center gap-2 font-semibold px-7 py-3 rounded-full text-white
+            className="hidden sm:inline-flex items-center gap-2 font-semibold px-7 py-3 rounded-full text-white
               bg-gradient-to-r from-primary to-secondary
               shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40
               transition-shadow duration-300
@@ -148,7 +152,7 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.4, duration: 0.8 }}
       >
-        <HiOutlineChevronDown className="w-7 h-7 animate-bounce" aria-hidden="true" />
+        <HiOutlineChevronDown className="w-6 h-6 sm:w-7 sm:h-7 animate-bounce" aria-hidden="true" />
       </m.a>
     </div>
   );
