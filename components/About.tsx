@@ -1,5 +1,6 @@
 'use client';
 
+import { PortableText } from '@portabletext/react';
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -69,20 +70,21 @@ const About = ({ pageInfo }: Props) => {
             yourself
           </m.h3>
 
-          {pageInfo?.summary.map((text: SanityBlock, index: number) => {
-            if (text._type !== 'block' || !text.children) return null;
-            return (
-              <m.p
-                key={index}
-                variants={fadeInUp}
-                className={`text-textlight dark:text-textdark max-w-3xl break-words leading-relaxed mb-4 ${
-                  index === 0 ? 'text-lg md:text-xl' : 'text-base'
-                }`}
-                // ⚠️ dangerouslySetInnerHTML safe here — content comes from your own Sanity CMS
-                dangerouslySetInnerHTML={{ __html: text.children[0].text }}
-              />
-            );
-          })}
+          <PortableText
+            value={pageInfo?.summary}
+            components={{
+              block: {
+                normal: ({ children }) => (
+                  <m.p
+                    variants={fadeInUp}
+                    className="text-textlight dark:text-textdark max-w-3xl break-words leading-relaxed mb-4 text-base first:text-lg first:md:text-xl"
+                  >
+                    {children}
+                  </m.p>
+                ),
+              },
+            }}
+          />
 
           {/* Accent underline */}
           <m.div

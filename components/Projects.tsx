@@ -1,5 +1,6 @@
 'use client';
 
+import { PortableText } from '@portabletext/react';
 import { m, useScroll, useTransform, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import { memo, useRef } from 'react';
@@ -143,16 +144,18 @@ const Projects = ({ project }: Props) => {
                   </div>
 
                   <div className="space-y-3">
-                    {item.summary.map((text: SanityBlock, sIdx: number) => {
-                      if (text._type !== 'block' || !text.children) return null;
-                      return (
-                        <p
-                          key={sIdx}
-                          className="text-textlight dark:text-textdark leading-relaxed"
-                          dangerouslySetInnerHTML={{ __html: text.children[0].text }}
-                        />
-                      );
-                    })}
+                    <PortableText
+                      value={item.summary}
+                      components={{
+                        block: {
+                          normal: ({ children }) => (
+                            <p className="text-textlight dark:text-textdark leading-relaxed">
+                              {children}
+                            </p>
+                          ),
+                        },
+                      }}
+                    />
                   </div>
 
                   {/* Tech chips — names visible (tooltips were unusable on touch) */}
