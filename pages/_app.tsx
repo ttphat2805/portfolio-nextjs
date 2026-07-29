@@ -44,7 +44,7 @@ const personJsonLd = {
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   // Sanity Studio manages its own scroll — skip Lenis on the studio route
-  const isStudio = router.pathname.startsWith('/studio');
+  const isStudio = router.pathname.startsWith('/admin');
 
   const meta = (
     <Head>
