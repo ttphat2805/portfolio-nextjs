@@ -82,22 +82,23 @@ const InfoRow = ({ icon, href, children }: { icon: ReactNode; href?: string; chi
   );
 };
 
+const STATUS_RESET_MS = 4000;
+
 const Contact = ({ pageInfo }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [checkMark, setCheckMark] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
   const form = useRef<HTMLFormElement>(null);
-  const checkMarkRef = useRef<HTMLSpanElement>(null);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  useEffect(() => {
-    if (checkMark) {
-      checkMarkRef.current?.classList.add("draw");
-    } else {
-      checkMarkRef.current?.classList.remove("draw");
-    }
-  }, [checkMark]);
+  // Drop the pending status reset if the section unmounts mid-timeout
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
+
+  const scheduleStatusReset = () => {
+    clearTimeout(resetTimer.current);
+    resetTimer.current = setTimeout(() => setSubmitStatus("idle"), STATUS_RESET_MS);
+  };
 
   const {
     register,
@@ -106,45 +107,31 @@ const Contact = ({ pageInfo }: Props) => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = () => {
+  const onSubmit: SubmitHandler<FormValues> = async () => {
     setLoading(true);
     setSubmitStatus("idle");
+    clearTimeout(resetTimer.current);
 
-    emailjs
-      .sendForm(
+    try {
+      const result = await emailjs.sendForm(
         EMAILJS.SERVICE_ID!,
         EMAILJS.TEMPLATE_ID!,
         form.current!,
         EMAILJS.PUBLIC_KEY
-      )
-      .then(
-        (result) => {
-          if (result.text === "OK") {
-            setTimeout(() => {
-              setCheckMark(true);
-              setLoading(false);
-              setSubmitStatus("success");
-              setTimeout(() => {
-                setCheckMark(false);
-                setSubmitStatus("idle");
-                reset();
-              }, 2000);
-            }, 1000);
-          }
-        },
-        (error) => {
-          console.log(error.text);
-          setLoading(false);
-          setSubmitStatus("error");
-          setTimeout(() => setSubmitStatus("idle"), 3000);
-        }
-      )
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-        setSubmitStatus("error");
-        setTimeout(() => setSubmitStatus("idle"), 3000);
-      });
+      );
+      // EmailJS resolves with a non-OK body on partial failures — treat those as errors
+      // instead of leaving the button stuck in its loading state.
+      if (result.text !== "OK") throw new Error(result.text);
+
+      setSubmitStatus("success");
+      reset();
+    } catch (error) {
+      console.error("Contact form submission failed:", error);
+      setSubmitStatus("error");
+    } finally {
+      setLoading(false);
+      scheduleStatusReset();
+    }
   };
 
   return (
@@ -335,49 +322,52 @@ const Contact = ({ pageInfo }: Props) => {
               {/* Submit Button */}
               <m.div variants={fadeInUp}>
                 <m.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={loading ? undefined : { scale: 1.02 }}
+                  whileTap={loading ? undefined : { scale: 0.98 }}
                   className={`
-                    relative w-full py-4 px-6 rounded-xl text-base font-semibold text-white
-                    transition-all duration-300 outline-none overflow-hidden
+                    relative w-full h-[56px] px-6 rounded-xl text-base font-semibold text-white
+                    flex items-center justify-center
+                    transition-colors duration-300 outline-none overflow-hidden
+                    focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
                     ${
-                      loading || checkMark
-                        ? "bg-gray-500 cursor-not-allowed"
+                      loading
+                        ? "bg-gray-500 cursor-wait"
                         : submitStatus === "success"
-                        ? "bg-green-600 hover:bg-green-700"
+                        ? "bg-green-600"
                         : submitStatus === "error"
                         ? "bg-red-600 hover:bg-red-700"
                         : "bg-gradient-to-r from-primary to-secondary hover:from-primary hover:to-primary shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40"
                     }
-                    ${checkMark && "h-[56px]"}
                   `}
-                  disabled={loading || checkMark}
+                  disabled={loading}
+                  aria-busy={loading}
                   type="submit"
                 >
-                  <AnimatePresence mode="wait">
+                  <AnimatePresence mode="wait" initial={false}>
                     {loading ? (
-                      <m.div
+                      <m.span
                         key="loading"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="flex items-center justify-center space-x-2"
                       >
-                        <Loader />
+                        <Loader className="w-5 h-5" label="Sending your message" />
                         <span>Sending...</span>
-                      </m.div>
-                    ) : checkMark ? (
-                      <m.div
+                      </m.span>
+                    ) : submitStatus === "success" ? (
+                      <m.span
                         key="success"
-                        initial={{ opacity: 0, scale: 0.5 }}
+                        initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.5 }}
-                        className="flex items-center justify-center"
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="flex items-center justify-center space-x-2"
                       >
-                        <IoMdCheckmarkCircle className="text-2xl" aria-hidden="true" />
-                      </m.div>
+                        <IoMdCheckmarkCircle className="text-xl" aria-hidden="true" />
+                        <span>Message Sent</span>
+                      </m.span>
                     ) : submitStatus === "error" ? (
-                      <m.div
+                      <m.span
                         key="error"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -386,9 +376,9 @@ const Contact = ({ pageInfo }: Props) => {
                       >
                         <IoMdAlert aria-hidden="true" />
                         <span>Try Again</span>
-                      </m.div>
+                      </m.span>
                     ) : (
-                      <m.div
+                      <m.span
                         key="default"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -397,14 +387,9 @@ const Contact = ({ pageInfo }: Props) => {
                       >
                         <FiSend aria-hidden="true" />
                         <span>Send Message</span>
-                      </m.div>
+                      </m.span>
                     )}
                   </AnimatePresence>
-
-                  <span
-                    ref={checkMarkRef}
-                    className="checkmark relative m-auto invisible"
-                  />
                 </m.button>
               </m.div>
 

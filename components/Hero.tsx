@@ -3,9 +3,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import { m } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
-import { memo, type ComponentType } from 'react';
-import { TbDownload } from 'react-icons/tb';
+import { memo, useCallback, useEffect, useRef, useState, type ComponentType, type MouseEvent } from 'react';
+import { TbDownload, TbCheck } from 'react-icons/tb';
 import { HiOutlineChevronDown, HiOutlineArrowRight } from 'react-icons/hi';
 import { Cursor, useTypewriter } from 'react-simple-typewriter';
 import { urlFor } from '../sanity';
@@ -18,7 +17,69 @@ type Props = {
   ParticlesCanvas: ComponentType<{ skills: Skills[] }>;
 };
 
+const RESUME_FALLBACK_URL = '/CV_TranTanPhat_FrontendDev.pdf';
+const RESUME_FILENAME = 'CV_TranTanPhat_FrontendDev.pdf';
+const DOWNLOAD_DONE_MS = 2500;
+
+/**
+ * Sanity's CDN serves files inline by default and the HTML `download` attribute is
+ * ignored cross-origin, so a plain link opens the PDF in a tab instead of saving it.
+ * `?dl=<filename>` makes the CDN send `Content-Disposition: attachment`.
+ */
+const withForcedDownload = (url: string) => {
+  if (!/^https?:\/\//.test(url)) return url;
+  return `${url}${url.includes('?') ? '&' : '?'}dl=${encodeURIComponent(RESUME_FILENAME)}`;
+};
+
 const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
+  const [downloadState, setDownloadState] = useState<'idle' | 'loading' | 'done'>('idle');
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
+
+  const resumeHref = withForcedDownload(
+    pageInfo.heroResumeUrl?.asset?.url || RESUME_FALLBACK_URL
+  );
+
+  const handleDownload = useCallback(
+    async (event: MouseEvent<HTMLAnchorElement>) => {
+      // Let the browser own modified clicks (open in new tab, "Save link as", middle click)
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      event.preventDefault();
+      if (downloadState === 'loading') return; // ignore double clicks while fetching
+
+      clearTimeout(resetTimer.current);
+      setDownloadState('loading');
+
+      try {
+        const response = await fetch(resumeHref);
+        if (!response.ok) throw new Error(`Resume request failed: ${response.status}`);
+
+        const blobUrl = URL.createObjectURL(await response.blob());
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = RESUME_FILENAME;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // Revoke on the next tick — Safari cancels the download if the URL dies too soon
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+
+        setDownloadState('done');
+        resetTimer.current = setTimeout(() => setDownloadState('idle'), DOWNLOAD_DONE_MS);
+      } catch (error) {
+        // Happens when the origin isn't in Sanity's CORS allowlist (e.g. a preview deploy).
+        // A same-tab navigation can't be popup-blocked, and `?dl=` still makes the CDN
+        // send the file as an attachment, so the page stays put.
+        console.error('Resume download failed, falling back to navigation:', error);
+        setDownloadState('idle');
+        window.location.href = resumeHref;
+      }
+    },
+    [downloadState, resumeHref]
+  );
+
   const typewriterWords =
     pageInfo.heroTypewriterWords?.length
       ? pageInfo.heroTypewriterWords
@@ -125,20 +186,53 @@ const Hero = ({ pageInfo, skills, ParticlesCanvas }: Props) => {
             View Projects <HiOutlineArrowRight aria-hidden="true" />
           </m.a>
 
-          <m.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="inline-block">
-            <Link
-              href={pageInfo.heroResumeUrl?.asset?.url || '/CV_TranTanPhat_FrontendDev.pdf'}
-              download
+          <m.div
+            whileHover={downloadState === 'loading' ? undefined : { scale: 1.04 }}
+            whileTap={downloadState === 'loading' ? undefined : { scale: 0.97 }}
+            className="inline-block"
+          >
+            <a
+              href={resumeHref}
+              download={RESUME_FILENAME}
+              onClick={handleDownload}
               aria-label="Download Resume as PDF"
-              className="inline-flex items-center gap-2 font-medium px-7 py-3 rounded-full
-                border border-primary/40 text-primary
-                bg-white/60 dark:bg-white/5 backdrop-blur-md
-                hover:bg-primary hover:text-white hover:border-primary
-                transition-colors duration-300
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              aria-busy={downloadState === 'loading'}
+              className={`inline-flex items-center justify-center gap-2 min-w-[210px] font-medium px-7 py-3 rounded-full
+                border backdrop-blur-md transition-colors duration-300
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+                ${
+                  downloadState === 'done'
+                    ? 'border-green-500/60 text-green-600 dark:text-green-400 bg-green-500/10 cursor-default'
+                    : downloadState === 'loading'
+                    ? 'border-primary/40 text-primary bg-white/60 dark:bg-white/5 cursor-wait'
+                    : 'border-primary/40 text-primary bg-white/60 dark:bg-white/5 hover:bg-primary hover:text-white hover:border-primary'
+                }`}
             >
-              Download Resume <TbDownload className="text-xl" aria-hidden="true" />
-            </Link>
+              {downloadState === 'loading' ? (
+                <>
+                  Preparing...
+                  <span
+                    className="w-[18px] h-[18px] rounded-full border-2 border-current border-t-transparent animate-spin"
+                    aria-hidden="true"
+                  />
+                </>
+              ) : downloadState === 'done' ? (
+                <>
+                  Downloaded <TbCheck className="text-xl" aria-hidden="true" />
+                </>
+              ) : (
+                <>
+                  Download Resume <TbDownload className="text-xl" aria-hidden="true" />
+                </>
+              )}
+            </a>
+            <span role="status" aria-live="polite" className="sr-only">
+              {downloadState === 'loading'
+                ? 'Preparing your resume download'
+                : downloadState === 'done'
+                ? 'Resume downloaded'
+                : ''}
+            </span>
           </m.div>
         </m.div>
       </m.div>
